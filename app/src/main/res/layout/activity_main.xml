@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <!--
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="133dp"
-        android:layout_marginBottom="168dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-
-    </HorizontalScrollView>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -29,5 +15,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
--->
+
 </androidx.constraintlayout.widget.ConstraintLayout>
