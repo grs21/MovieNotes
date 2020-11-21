@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.adapter.RecyclerAdapter;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerAdapter recyclerAdapter=new RecyclerAdapter(movieName);
         recyclerView.setAdapter(recyclerAdapter);
+
+        Toast.makeText(this, "Movie", Toast.LENGTH_SHORT).show();
     }
 
     public void initializeComponent(){
