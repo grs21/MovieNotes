@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerAdapter recyclerAdapter=new RecyclerAdapter(movieName);
         recyclerView.setAdapter(recyclerAdapter);
-        
+
     }
 
     public void initializeComponent(){
