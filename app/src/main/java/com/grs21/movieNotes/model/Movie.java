@@ -18,6 +18,9 @@ public class Movie implements Serializable {
         this.movieDirector = movieDirector;
         this.movieActor = movieActor;
     }
+    public Movie (String movieName){
+        this.movieName=movieName;
+    }
 
 
     public String getMovieName() {
