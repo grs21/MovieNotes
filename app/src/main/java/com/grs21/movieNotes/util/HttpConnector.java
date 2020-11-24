@@ -33,6 +33,7 @@ public final  class HttpConnector {
          return  instance;
      }
 
+     //Todo:Generics addRequest
      public <T> void addRequestQue(Request<T> request){
 
                 getRequestQueue().add(request);

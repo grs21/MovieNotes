@@ -11,16 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.grs21.movieNotes.R;
+import com.grs21.movieNotes.model.Movie;
 
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
 
-    private ArrayList<String> movieName;
+    private ArrayList<Movie> movieName;
+    private static final String TAG = "RecyclerAdapter";
 
-    public RecyclerAdapter(ArrayList<String> movieName) {
+    public RecyclerAdapter(ArrayList<Movie> movieName) {
         this.movieName = movieName;
+
     }
 
     //Todo:What do when create
@@ -38,7 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
 
-        holder.textViewRowMovieName.setText(movieName.get(position));
+        holder.textViewRowMovieName.setText(movieName.get(position).getMovieName());
        // holder.imageViewRowMovieImage.setImageBitmap();
 
     }
@@ -46,6 +49,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     //Todo:RecyclerView row count
     @Override
     public int getItemCount() {
+
         return movieName.size();
     }
 

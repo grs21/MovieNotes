@@ -6,22 +6,29 @@ import java.util.List;
 public class Movie implements Serializable {
 
     private  Integer id;
-    private String movieId;
+    private String rank;
     private String movieName;
     private String movieDirector;
+    private String movieYear;
     private List movieActor;
 
-    public Movie( String movieId, String movieDirector, List movieActor,String movieName) {
+    public Movie( String movieDirector, List movieActor,String movieName) {
 
         this.movieName=movieName;
-        this.movieId = movieId;
         this.movieDirector = movieDirector;
         this.movieActor = movieActor;
     }
-    public Movie (String movieName){
-        this.movieName=movieName;
+    public Movie(){
+
     }
 
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
 
     public String getMovieName() {
         return movieName;
@@ -29,14 +36,6 @@ public class Movie implements Serializable {
 
     public void setMovieName(String movieName) {
         this.movieName = movieName;
-    }
-
-    public String getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(String movieId) {
-        this.movieId = movieId;
     }
 
     public String getMovieDirector() {
@@ -53,5 +52,10 @@ public class Movie implements Serializable {
 
     public void setMovieActor(List movieActor) {
         this.movieActor = movieActor;
+    }
+
+    @Override
+    public String toString() {
+        return  movieName + '\'';
     }
 }

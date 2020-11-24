@@ -19,22 +19,16 @@
         android:layout_marginBottom="5dp"
         app:srcCompat="@drawable/ic_launcher_background" />
 
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/horizontal"
-        >
+
         <TextView
             android:id="@+id/textView_recycle_row_textView"
-            android:layout_width="13dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:layout_marginBottom="7dp"
             android:text="@string/movie_name"
-
             android:maxLength="13"
             android:maxLines="1"
             android:ellipsize="end"
@@ -43,8 +37,6 @@
             android:textColor="@android:color/black"
             />
 
-
-    </HorizontalScrollView>
 
 
 </LinearLayout>
