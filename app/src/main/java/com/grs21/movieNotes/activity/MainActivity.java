@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,73 +48,6 @@ public class MainActivity extends AppCompatActivity {
         donLoader(JSON_DATA_URL);
         layoutManager();
 
-
-
-/*
-          JsonObjectRequest jsonRequest=new JsonObjectRequest(Request.Method.GET
-                , MOVIE_URL
-                , null
-                , new Response.Listener<JSONObject>() {
-                  @Override
-                  public void onResponse(JSONObject response) {
-
-
-
-                          Log.d(TAG, "onResponse:"+response.length());
-
-
-                  }
-                }
-              , new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    Log.d(TAG, "onErrorResponse:"+error);
-                }
-              }
-        );
-
-        //requestQueue = HttpConnector.getInstance(getApplicationContext()).getRequestQueue();
-
-
-
-        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET
-                , MOVIE_URL
-                , null
-                , new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                try {
-                    for (int i=0;i<=response.length()-1;i++) {
-                        movie=new Movie();
-                        movie.setRank(response.getJSONObject(i).getString(JSON_MOVIE_RANK));
-                        movie.setMovieName(response.getJSONObject(i).getString(JSON_MOVIE_NAME));
-                        movieArrayList.add(i,movie);
-                        Log.d(TAG, "onResponse: "+movieArrayList);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                RecyclerAdapter recyclerAdapter=new RecyclerAdapter(movieArrayList);
-                recyclerView.setAdapter(recyclerAdapter);
-            }
-        }
-                , new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Log.d(TAG, "onErrorResponse: JsonArray"+error);
-            }
-        }
-        );
-
-        HttpConnector.getInstance(getApplicationContext()).addRequestQue(jsonArrayRequest);
-*/
-
-
-
-
     }
 
     public void layoutManager(){
@@ -131,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class DataDownLoader extends AsyncTask<String,Void,String>{
 
         @Override
@@ -142,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-                JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, s, null, new Response.Listener<JSONArray>() {
+                JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET
+                        , s
+                        , null
+                        , new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
