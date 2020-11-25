@@ -89,10 +89,10 @@ public class MainActivity extends AppCompatActivity {
                                 movie.setRank(response.getJSONObject(i).getString(JSON_MOVIE_RANK));
                                 movie.setMovieName(response.getJSONObject(i).getString(JSON_MOVIE_NAME));
                                 movieArrayList.add(movie);
-                                recyclerAdapter=new RecyclerAdapter(movieArrayList);
-                                recyclerView.setAdapter(recyclerAdapter);
                                 Log.d(TAG, "onResponse: "+movieArrayList);
                             }
+                            recyclerAdapter=new RecyclerAdapter(movieArrayList);
+                            recyclerView.setAdapter(recyclerAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
