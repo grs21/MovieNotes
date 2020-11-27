@@ -1,34 +1,37 @@
 package com.grs21.movieNotes.activity;
 
-import androidx.annotation.LongDef;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
-import android.app.DownloadManager;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListView;
+
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+
 import com.grs21.movieNotes.R;
-import com.grs21.movieNotes.adapter.RecyclerAdapter;
+import com.grs21.movieNotes.adapter.RecyclerViewAdapter;
+import com.grs21.movieNotes.adapter.SliderAdapter;
 import com.grs21.movieNotes.model.Movie;
 import com.grs21.movieNotes.util.HttpConnector;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -38,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private static  final String JSON_MOVIE_NAME="Title";
     public static final String JSON_MOVIE_RANK="Rank";
     private ArrayList<Movie> movieArrayList=new ArrayList<>();
-    private RecyclerAdapter recyclerAdapter;
+    private RecyclerViewAdapter recyclerAdapter;
+    private ViewPager2 viewPager2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,24 @@ public class MainActivity extends AppCompatActivity {
         initializeComponent();
         donLoader(JSON_DATA_URL);
         layoutManager();
+
+
+        List<Integer> imageResource=new ArrayList<>();
+        imageResource.add(R.drawable.burger_icon);
+        imageResource.add(R.drawable.cake_icon);
+        imageResource.add(R.drawable.cheesecake_icon);
+        imageResource.add(R.drawable.drink_icon);
+        imageResource.add(R.drawable.food_icon);
+
+        viewPager2.setAdapter(new SliderAdapter(imageResource,viewPager2));
+
+
+
+
+
+
+
+
 
     }
 
@@ -89,10 +112,12 @@ public class MainActivity extends AppCompatActivity {
                                 movie.setRank(response.getJSONObject(i).getString(JSON_MOVIE_RANK));
                                 movie.setMovieName(response.getJSONObject(i).getString(JSON_MOVIE_NAME));
                                 movieArrayList.add(movie);
+                                recyclerAdapter=new RecyclerViewAdapter(movieArrayList);
+                                recyclerView.setAdapter(recyclerAdapter);
+
                                 Log.d(TAG, "onResponse: "+movieArrayList);
                             }
-                            recyclerAdapter=new RecyclerAdapter(movieArrayList);
-                            recyclerView.setAdapter(recyclerAdapter);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -113,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initializeComponent(){
-
         recyclerView=findViewById(R.id.recyclerView);
+        viewPager2=findViewById(R.id.viewPager2);
     }
 }

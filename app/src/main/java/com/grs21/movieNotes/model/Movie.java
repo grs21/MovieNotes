@@ -11,6 +11,7 @@ public class Movie implements Serializable {
     private String movieDirector;
     private String movieYear;
     private List movieActor;
+    private int movieImageURL;
 
     public Movie( String movieDirector, List movieActor,String movieName) {
 
@@ -20,6 +21,14 @@ public class Movie implements Serializable {
     }
     public Movie(){
 
+    }
+
+    public int getMovieImageURL() {
+        return movieImageURL;
+    }
+
+    public void setMovieImageURL(int movieImageURL) {
+        this.movieImageURL = movieImageURL;
     }
 
     public String getRank() {

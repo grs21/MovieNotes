@@ -1,6 +1,5 @@
 package com.grs21.movieNotes.adapter;
 
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,13 @@ import com.grs21.movieNotes.model.Movie;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
 
     private ArrayList<Movie> movieName;
     private static final String TAG = "RecyclerAdapter";
 
-    public RecyclerAdapter(ArrayList<Movie> movieName) {
+    public RecyclerViewAdapter(ArrayList<Movie> movieName) {
         this.movieName = movieName;
 
     }
