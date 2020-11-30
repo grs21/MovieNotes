@@ -14,13 +14,13 @@ import com.grs21.movieNotes.model.Movie;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewBoxAdapter extends RecyclerView.Adapter<RecyclerViewBoxAdapter.ViewHolderBoxAdapter> {
 
 
     private ArrayList<Movie> movieName;
     private static final String TAG = "RecyclerAdapter";
 
-    public RecyclerViewAdapter(ArrayList<Movie> movieName) {
+    public RecyclerViewBoxAdapter(ArrayList<Movie> movieName) {
         this.movieName = movieName;
 
     }
@@ -28,20 +28,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //Todo:What do when create
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderBoxAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater=LayoutInflater.from(parent.getContext());
-        View view=layoutInflater.inflate(R.layout.recycler_row_layout,parent,false);
+        View view=layoutInflater.inflate(R.layout.recycler_movie_box,parent,false);
 
-        return new ViewHolder(view);
+        return new ViewHolderBoxAdapter(view);
     }
 
     //Todo:What do when load
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderBoxAdapter holder, int position) {
 
+            Movie movie=movieName.get(position);
 
-        holder.textViewRowMovieName.setText(movieName.get(position).getMovieName());
-       // holder.imageViewRowMovieImage.setImageBitmap();
+            holder.textViewRowMovieName.setText(movie.getMovieName());
+         //Todo:image Set!!
+        // holder.imageViewRowMovieImage.setImageBitmap();
 
     }
 
@@ -53,11 +55,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     //Todo: put specific layout
-    class ViewHolder extends  RecyclerView.ViewHolder{
+    class ViewHolderBoxAdapter extends  RecyclerView.ViewHolder{
         ImageView imageViewRowMovieImage;
         TextView textViewRowMovieName;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolderBoxAdapter(@NonNull View itemView) {
             super(itemView);
             imageViewRowMovieImage=itemView.findViewById(R.id.imageView_recycle_row_image);
             textViewRowMovieName=itemView.findViewById(R.id.textView_recycle_row_textView);

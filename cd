@@ -92,7 +92,7 @@
 [32m+[m[32mimport android.widget.Toast;[m
 [32m+[m
 [32m+[m[32mimport com.grs21.movieNotes.R;[m
-[32m+[m[32mimport com.grs21.movieNotes.adapter.RecyclerViewAdapter;[m
+[32m+[m[32mimport com.grs21.movieNotes.adapter.RecyclerViewBoxAdapter;[m
 [32m+[m[32mimport com.grs21.movieNotes.model.Movie;[m
 [32m+[m
 [32m+[m[32mimport java.util.ArrayList;[m
