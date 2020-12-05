@@ -1,5 +1,6 @@
 package com.grs21.movieNotes.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.model.Movie;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -18,7 +20,7 @@ public class RecyclerViewBoxAdapter extends RecyclerView.Adapter<RecyclerViewBox
 
 
     private ArrayList<Movie> movieName;
-    private static final String TAG = "RecyclerAdapter";
+    private static final String TAG = "BoxAdapter";
 
     public RecyclerViewBoxAdapter(ArrayList<Movie> movieName) {
         this.movieName = movieName;
@@ -39,11 +41,48 @@ public class RecyclerViewBoxAdapter extends RecyclerView.Adapter<RecyclerViewBox
     @Override
     public void onBindViewHolder(@NonNull ViewHolderBoxAdapter holder, int position) {
 
-            Movie movie=movieName.get(position);
+        if (movieName==null) {
+            movieName=new ArrayList<>();
+            Movie movie = new Movie();
+            movie.setMovieName("null2");
+            Movie movie2 = new Movie();
+            movie.setMovieName("null3");
+            Movie movie3 = new Movie();
+            movie.setMovieName("null4");
+            Movie movie4 = new Movie();
+            movie.setMovieName("null5");
+            Movie movie5 = new Movie();
+            movie.setMovieName("null6");
+            movieName.add(movie);
+            movieName.add(movie2);
+            movieName.add(movie3);
+            movieName.add(movie4);
+            movieName.add(movie5);
+        }
+        else if (movieName.isEmpty()){
+            Movie movie = new Movie();
+            movie.setMovieName("null1");
+            Movie movie2 = new Movie();
+            movie.setMovieName("null2");
+            Movie movie3 = new Movie();
+            movie.setMovieName("null3");
+            Movie movie4 = new Movie();
+            movie.setMovieName("null4");
+            Movie movie5 = new Movie();
+            movie.setMovieName("null5");
+            movieName.add(movie);
+            movieName.add(movie2);
+            movieName.add(movie3);
+            movieName.add(movie4);
+            movieName.add(movie5);
+        }
 
-            holder.textViewRowMovieName.setText(movie.getMovieName());
-         //Todo:image Set!!
-        // holder.imageViewRowMovieImage.setImageBitmap();
+            Log.d(TAG, "onBindViewHolder: movieName:"+movieName);
+            holder.textViewRowMovieName.setText(movieName.get(position).getMovieName());
+
+            //Todo:image Set!!
+            Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movieName.get(position)
+                    .getMovieImageURL()).into(holder.imageViewRowMovieImage);
 
     }
 
@@ -51,7 +90,14 @@ public class RecyclerViewBoxAdapter extends RecyclerView.Adapter<RecyclerViewBox
     @Override
     public int getItemCount() {
 
-        return movieName.size();
+        int count;
+        if (movieName==null){
+           count=4;
+        }
+        else if (!movieName.isEmpty()){
+            count=movieName.size();
+        }else count=4;
+        return count;
     }
 
     //Todo: put specific layout

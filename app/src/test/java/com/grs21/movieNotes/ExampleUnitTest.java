@@ -1,6 +1,10 @@
 package com.grs21.movieNotes;
 
+import android.widget.ArrayAdapter;
+
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +16,23 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        String[] arrData = {"Alpha", "Beta", "Gamma", "Delta", "Sigma"};
+        ArrayList<String> arrData =new ArrayList<>();
+        arrData.add("Alpha");
+        arrData.add("Beta");
+        arrData.add("Gamma");
+        arrData.add("Delta");
+        arrData.add("Sigma");
+
+        ArrayList<String>addadada=new ArrayList<>();
+           addadada.add("xdddd");
+           addadada.add("xd");
+           arrData.addAll(addadada);
+
+        for (String x:arrData){
+
+            System.out.println(x);
+
+        }
 
     }
 }

@@ -1,12 +1,14 @@
 package com.grs21.movieNotes.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 public final  class HttpConnector {
+    private static final String TAG = "HttpConnector";
 
      private static HttpConnector instance;
      private RequestQueue requestQueue;
@@ -16,6 +18,7 @@ public final  class HttpConnector {
 
          this.context=context;
          this.requestQueue=getRequestQueue();
+         Log.d(TAG, "HttpConnector:New Connected!!");
      }
 
      public RequestQueue getRequestQueue(){

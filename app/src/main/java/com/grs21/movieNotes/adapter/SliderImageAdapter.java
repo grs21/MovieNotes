@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.model.Movie;
@@ -19,28 +20,12 @@ import java.util.List;
 public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.SliderViewAdapterVH> {
 
 
-    private List<Movie> movieSliderItem =new ArrayList<>();
+    private  ArrayList<Movie> movieSliderItem;
 
-    public SliderImageAdapter(List<Movie> movieSliderItem ){
+    public SliderImageAdapter(ArrayList<Movie> movieSliderItem ){
 
         this.movieSliderItem=movieSliderItem;
     }
-
-    public void renewItems(List<Movie> sliderItem){
-
-        this.movieSliderItem =sliderItem;
-        notifyDataSetChanged();
-    }
-    public void deleteItem(int position) {
-        this.movieSliderItem.remove(position);
-        notifyDataSetChanged();
-    }
-
-    public void addItem(Movie sliderItem) {
-        this.movieSliderItem.add(sliderItem);
-        notifyDataSetChanged();
-    }
-
     @Override
     public SliderViewAdapterVH onCreateViewHolder(ViewGroup parent) {
         LayoutInflater layoutInflater=LayoutInflater.from(parent.getContext());
@@ -52,13 +37,11 @@ public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.Sli
     @Override
     public void onBindViewHolder(SliderViewAdapterVH viewHolder, int position) {
 
-        Movie movie= movieSliderItem.get(position);
-        viewHolder.textViewDescription.setText(movie.getMovieName());
+       /* viewHolder.textViewDescription.setText(movieSliderItem.get(position).getMovieName());
         viewHolder.textViewDescription.setTextSize(16);
         viewHolder.textViewDescription.setTextColor(Color.WHITE);
-
-        Picasso.get().load(movieSliderItem.get(position).getMovieImageURL()).into(viewHolder.imageVieBackground);
-
+*/
+        Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movieSliderItem.get(position).getMovieImageURL()).fit().into(viewHolder.imageVieBackground);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,8 +49,6 @@ public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.Sli
 
             }
         });
-
-
     }
 
     @Override
@@ -81,8 +62,6 @@ public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.Sli
         ImageView imageVieBackground;
         ImageView imageGifContainer;
         TextView  textViewDescription;
-
-
         public SliderViewAdapterVH(View itemView) {
             super(itemView);
             imageVieBackground=itemView.findViewById(R.id.auto_image_slider);

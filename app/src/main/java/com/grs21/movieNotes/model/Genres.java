@@ -1,10 +1,17 @@
 package com.grs21.movieNotes.model;
 
+import java.util.ArrayList;
+
 public class Genres {
 
-
+    private Integer id;
     private String name;
-    private String id;
+    public  ArrayList<Movie> getMovieArrayList;
+
+
+
+
+
 
     public String getName() {
         return name;
@@ -14,11 +21,11 @@ public class Genres {
         this.name = name;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -26,4 +33,5 @@ public class Genres {
     public String toString() {
         return name +" "+ id ;
     }
+
 }
