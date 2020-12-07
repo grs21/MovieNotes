@@ -16,14 +16,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecyclerViewBoxAdapter extends RecyclerView.Adapter<RecyclerViewBoxAdapter.ViewHolderBoxAdapter> {
+public  class RecyclerViewBoxAdapter extends RecyclerView.Adapter<RecyclerViewBoxAdapter.ViewHolderBoxAdapter> {
 
 
-    private ArrayList<Movie> movieName;
+    private ArrayList<Movie> movieArrayList;
     private static final String TAG = "BoxAdapter";
 
     public RecyclerViewBoxAdapter(ArrayList<Movie> movieName) {
-        this.movieName = movieName;
+        this.movieArrayList = movieName;
 
     }
 
@@ -39,63 +39,68 @@ public class RecyclerViewBoxAdapter extends RecyclerView.Adapter<RecyclerViewBox
 
     //Todo:What do when load
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderBoxAdapter holder, int position) {
+    public synchronized void  onBindViewHolder(@NonNull ViewHolderBoxAdapter holder, int position) {
 
-        if (movieName==null) {
-            movieName=new ArrayList<>();
+        if (movieArrayList!=null && !movieArrayList.isEmpty()) {
+                holder.textViewRowMovieName.setText(movieArrayList.get(position).getMovieName());
+                Picasso.get().load("https://image.tmdb.org/t/p/w500/" + movieArrayList.get(position)
+                        .getMovieImageURL()).into(holder.imageViewRowMovieImage);
+
+        }
+
+
+
+    }
+/*
+    public void nullControl(){
+        if (movieArrayList ==null) {
+            movieArrayList =new ArrayList<>();
             Movie movie = new Movie();
             movie.setMovieName("null2");
             Movie movie2 = new Movie();
-            movie.setMovieName("null3");
+            movie2.setMovieName("null3");
             Movie movie3 = new Movie();
-            movie.setMovieName("null4");
+            movie3.setMovieName("null4");
             Movie movie4 = new Movie();
-            movie.setMovieName("null5");
+            movie4.setMovieName("null5");
             Movie movie5 = new Movie();
-            movie.setMovieName("null6");
-            movieName.add(movie);
-            movieName.add(movie2);
-            movieName.add(movie3);
-            movieName.add(movie4);
-            movieName.add(movie5);
+            movie5.setMovieName("null6");
+            movieArrayList.add(movie);
+            movieArrayList.add(movie2);
+            movieArrayList.add(movie3);
+            movieArrayList.add(movie4);
+            movieArrayList.add(movie5);
         }
-        else if (movieName.isEmpty()){
+        else if (movieArrayList.isEmpty()){
             Movie movie = new Movie();
             movie.setMovieName("null1");
             Movie movie2 = new Movie();
-            movie.setMovieName("null2");
+            movie2.setMovieName("null2");
             Movie movie3 = new Movie();
-            movie.setMovieName("null3");
+            movie3.setMovieName("null3");
             Movie movie4 = new Movie();
-            movie.setMovieName("null4");
+            movie4.setMovieName("null4");
             Movie movie5 = new Movie();
-            movie.setMovieName("null5");
-            movieName.add(movie);
-            movieName.add(movie2);
-            movieName.add(movie3);
-            movieName.add(movie4);
-            movieName.add(movie5);
+            movie5.setMovieName("null5");
+            movieArrayList.add(movie);
+            movieArrayList.add(movie2);
+            movieArrayList.add(movie3);
+            movieArrayList.add(movie4);
+            movieArrayList.add(movie5);
         }
 
-            Log.d(TAG, "onBindViewHolder: movieName:"+movieName);
-            holder.textViewRowMovieName.setText(movieName.get(position).getMovieName());
-
-            //Todo:image Set!!
-            Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movieName.get(position)
-                    .getMovieImageURL()).into(holder.imageViewRowMovieImage);
-
-    }
+    }*/
 
     //Todo:RecyclerView row count
     @Override
     public int getItemCount() {
 
         int count;
-        if (movieName==null){
+        if (movieArrayList ==null){
            count=4;
         }
-        else if (!movieName.isEmpty()){
-            count=movieName.size();
+        else if (!movieArrayList.isEmpty()){
+            count= movieArrayList.size();
         }else count=4;
         return count;
     }

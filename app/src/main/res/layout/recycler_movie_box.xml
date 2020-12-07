@@ -11,14 +11,15 @@
 
     <ImageView
         android:id="@+id/imageView_recycle_row_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="7dp"
         android:layout_marginRight="3dp"
         android:layout_marginBottom="5dp"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/ic_launcher_background"
+        />
 
 
         <TextView

@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.MainActivity"
+    android:orientation="vertical"
+    android:background="@color/darkBlue"
+    >
 
 
     <com.smarteist.autoimageslider.SliderView
         android:id="@+id/imageSlider"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="215dp"
 
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:sliderAnimationDuration="600"
         app:sliderAutoCycleDirection="back_and_forth"
         app:sliderAutoCycleEnabled="true"
@@ -35,16 +40,88 @@
 
     </com.smarteist.autoimageslider.SliderView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewMain"
+    <TextView
+        android:id="@+id/editTextRowTitlePopular"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBlue"
+        android:text="@string/genres_title"
+        android:textColor="@android:color/white"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="149dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRowPopular"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageSlider" />
+        tools:layout_editor_absoluteY="168dp" />
+    <TextView
+        android:id="@+id/editTextRowTitleUpComing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBlue"
+        android:text="@string/genres_title"
+        android:textColor="@android:color/white"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="149dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRowUpComing"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="168dp" />
+    <TextView
+        android:id="@+id/editTextRowTitleTopRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBlue"
+        android:text="@string/genres_title"
+        android:textColor="@android:color/white"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="149dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRowTopRAte"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="168dp" />
+    <TextView
+        android:id="@+id/editTextRowTitleNowPlaying"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBlue"
+        android:text="@string/genres_title"
+        android:textColor="@android:color/white"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="149dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRowNowPlaying"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="168dp"
+        />
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_marginRight=""
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+
+        />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
