@@ -13,7 +13,7 @@ public class Movie implements Serializable {
     private String movieYear;
     private List movieActor;
     private String movieImageURL;
-    public  ArrayList<Integer> genresId=new ArrayList<>();
+    public  ArrayList<Integer> moviesSaveArrayList =new ArrayList<>();
 
     public Movie( String movieDirector, List movieActor,String movieName) {
 
@@ -25,12 +25,12 @@ public class Movie implements Serializable {
 
     }
 
-    public void setGenresId(ArrayList<Integer> genresId) {
-        this.genresId = genresId;
+    public void setMoviesSaveArrayList(ArrayList<Integer> moviesSaveArrayList) {
+        this.moviesSaveArrayList = moviesSaveArrayList;
     }
 
-    public ArrayList<Integer> getGenresId() {
-        return genresId;
+    public ArrayList<Integer> getMoviesSaveArrayList() {
+        return moviesSaveArrayList;
     }
 
     public String getMovieImageURL() {
@@ -75,6 +75,6 @@ public class Movie implements Serializable {
 
     @Override
     public String toString() {
-        return  movieName +" "+ genresId+'\'';
+        return  movieName +" "+ moviesSaveArrayList +'\'';
     }
 }

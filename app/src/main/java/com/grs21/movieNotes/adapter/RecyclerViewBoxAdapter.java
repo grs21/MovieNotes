@@ -1,30 +1,31 @@
 package com.grs21.movieNotes.adapter;
 
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.model.Movie;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 public  class RecyclerViewBoxAdapter extends RecyclerView.Adapter<RecyclerViewBoxAdapter.ViewHolderBoxAdapter> {
 
 
     private ArrayList<Movie> movieArrayList;
+    private ArrayList<Movie> totalMovieArrayList;
     private static final String TAG = "BoxAdapter";
+    private static RecyclerViewBoxAdapter instance;
 
-    public RecyclerViewBoxAdapter(ArrayList<Movie> movieName) {
+    public  RecyclerViewBoxAdapter(ArrayList<Movie> movieName,ArrayList<Movie>totalMovieArrayList) {
         this.movieArrayList = movieName;
-
+        this.totalMovieArrayList=totalMovieArrayList;
+        totalMovieArrayList.addAll(movieArrayList);
     }
 
     //Todo:What do when create
@@ -41,66 +42,27 @@ public  class RecyclerViewBoxAdapter extends RecyclerView.Adapter<RecyclerViewBo
     @Override
     public synchronized void  onBindViewHolder(@NonNull ViewHolderBoxAdapter holder, int position) {
 
-        if (movieArrayList!=null && !movieArrayList.isEmpty()) {
-                holder.textViewRowMovieName.setText(movieArrayList.get(position).getMovieName());
-                Picasso.get().load("https://image.tmdb.org/t/p/w500/" + movieArrayList.get(position)
+        Log.d(TAG, "onBindViewHolder: MOVIE_ARRAY_LIST"+movieArrayList);
+
+        if (totalMovieArrayList!=null && !totalMovieArrayList.isEmpty()) {
+                holder.textViewRowMovieName.setText(totalMovieArrayList.get(position).getMovieName());
+                Picasso.get().load("https://image.tmdb.org/t/p/w500/" + totalMovieArrayList.get(position)
                         .getMovieImageURL()).into(holder.imageViewRowMovieImage);
-
         }
-
-
-
+        Log.d(TAG, "onBindViewHolder: TOTAL_MOVIE:"+totalMovieArrayList);
     }
-/*
-    public void nullControl(){
-        if (movieArrayList ==null) {
-            movieArrayList =new ArrayList<>();
-            Movie movie = new Movie();
-            movie.setMovieName("null2");
-            Movie movie2 = new Movie();
-            movie2.setMovieName("null3");
-            Movie movie3 = new Movie();
-            movie3.setMovieName("null4");
-            Movie movie4 = new Movie();
-            movie4.setMovieName("null5");
-            Movie movie5 = new Movie();
-            movie5.setMovieName("null6");
-            movieArrayList.add(movie);
-            movieArrayList.add(movie2);
-            movieArrayList.add(movie3);
-            movieArrayList.add(movie4);
-            movieArrayList.add(movie5);
-        }
-        else if (movieArrayList.isEmpty()){
-            Movie movie = new Movie();
-            movie.setMovieName("null1");
-            Movie movie2 = new Movie();
-            movie2.setMovieName("null2");
-            Movie movie3 = new Movie();
-            movie3.setMovieName("null3");
-            Movie movie4 = new Movie();
-            movie4.setMovieName("null4");
-            Movie movie5 = new Movie();
-            movie5.setMovieName("null5");
-            movieArrayList.add(movie);
-            movieArrayList.add(movie2);
-            movieArrayList.add(movie3);
-            movieArrayList.add(movie4);
-            movieArrayList.add(movie5);
-        }
 
-    }*/
 
     //Todo:RecyclerView row count
     @Override
     public int getItemCount() {
 
         int count;
-        if (movieArrayList ==null){
+        if (totalMovieArrayList ==null){
            count=4;
         }
-        else if (!movieArrayList.isEmpty()){
-            count= movieArrayList.size();
+        else if (!totalMovieArrayList.isEmpty()){
+            count= totalMovieArrayList.size();
         }else count=4;
         return count;
     }

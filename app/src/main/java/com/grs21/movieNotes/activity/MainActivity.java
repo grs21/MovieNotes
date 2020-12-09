@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,7 +23,7 @@ import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.adapter.RecyclerViewRowAdapter;
 import com.grs21.movieNotes.adapter.SliderImageAdapter;
 import com.grs21.movieNotes.model.Movie;
-import com.grs21.movieNotes.util.DownLoader;
+import com.grs21.movieNotes.util.MovieDownLoader;
 import com.grs21.movieNotes.util.RecyclerOnScrollListener;
 import com.grs21.movieNotes.util.HttpConnector;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -44,11 +46,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String JSON_TOP_RATE_LIST_URl="https://api.themoviedb.org/3/movie/top_rated?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
     public static final String JSON_UP_COMING_LIST_URL="https://api.themoviedb.org/3/movie/upcoming?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
     public static final String JSON_NOW_PLAYING_LIST_URL="https://api.themoviedb.org/3/movie/now_playing?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
-    public static final String JSON_DATA_GENRES_URL="https://api.themoviedb.org/3/genre/movie/list?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US";
-    private static final String JSON_MOVIE_GENRES_ID="id";
-    public static final String JSON_MOVIE_GENRES_NAME="name";
-    private static  final String JSON_MOVIE_NAME="Title";
-    public static final String JSON_MOVIE_RANK="Rank";
     private ArrayList<Movie> movieArrayList=new ArrayList<>();
     private ArrayList<Movie> sliderViewImageArrayList=new ArrayList<>();
     private RecyclerViewRowAdapter recyclerViewRowAdapter;
@@ -57,19 +54,31 @@ public class MainActivity extends AppCompatActivity {
 
     private List<String> listGenres=new ArrayList<>();
 
-    LinearLayoutManager linearLayoutManagerPop;
-    LinearLayoutManager linearLayoutManagerTopRate;
-    LinearLayoutManager linearLayoutManagerUpComing;
-    LinearLayoutManager linearLayoutManagerNowPlaying;
+    private LinearLayoutManager linearLayoutManagerPop;
+    private LinearLayoutManager linearLayoutManagerTopRate;
+    private LinearLayoutManager linearLayoutManagerUpComing;
+    private LinearLayoutManager linearLayoutManagerNowPlaying;
+
     private RecyclerView recyclerViewPop;
     private RecyclerView recyclerViewTopRate;
     private RecyclerView recyclerViewNowPlaying;
     private RecyclerView recyclerViewUpComing;
+
     private TextView textViewTitlePopular;
     private TextView textViewTitleTopRate;
     private TextView textViewTitleNowPlaying;
     private TextView textViewTitleUpComing;
-    ProgressBar progressBar;
+
+    public ProgressBar progressBarPopular;
+    private ProgressBar progressBarTopRate;
+    ProgressBar progressBarNowPlaying;
+    ProgressBar progressBarUpComing;
+    private ArrayList<Movie> popularTotalMovieArrayList =new ArrayList<>();
+    private ArrayList<Movie> topRateTotalMovieArrayList =new ArrayList<>();
+    private ArrayList<Movie> nowPlayingTotalMovieArrayList =new ArrayList<>();
+    private ArrayList<Movie> upComingTotalMovieArrayList =new ArrayList<>();
+
+
 
 
 
@@ -94,20 +103,21 @@ public class MainActivity extends AppCompatActivity {
         textViewTitleNowPlaying.setText("Now Playing");
 
 
-        DownLoader popular=new DownLoader(JSON_POPULAR_LIST_URL,MainActivity.this
-                ,recyclerViewPop, linearLayoutManagerPop);
+        MovieDownLoader popular=new MovieDownLoader(JSON_POPULAR_LIST_URL,MainActivity.this
+                ,recyclerViewPop, linearLayoutManagerPop, popularTotalMovieArrayList);
         popular.download();
+        Log.d(TAG, "onCreate: hi"+popular.returnList());
 
-        DownLoader upComing=new DownLoader(JSON_UP_COMING_LIST_URL,MainActivity.this
-                ,recyclerViewUpComing,linearLayoutManagerUpComing);
+        MovieDownLoader upComing=new MovieDownLoader(JSON_UP_COMING_LIST_URL,MainActivity.this
+                ,recyclerViewUpComing,linearLayoutManagerUpComing,upComingTotalMovieArrayList);
         upComing.download();
 
-       DownLoader topRate=new DownLoader(JSON_TOP_RATE_LIST_URl,MainActivity.this
-                ,recyclerViewTopRate, linearLayoutManagerTopRate);
+        MovieDownLoader topRate=new MovieDownLoader(JSON_TOP_RATE_LIST_URl,MainActivity.this
+                ,recyclerViewTopRate, linearLayoutManagerTopRate,topRateTotalMovieArrayList);
         topRate.download();
 
-        DownLoader nowPlaying=new DownLoader(JSON_NOW_PLAYING_LIST_URL,MainActivity.this
-                ,recyclerViewNowPlaying, linearLayoutManagerNowPlaying);
+        MovieDownLoader nowPlaying=new MovieDownLoader(JSON_NOW_PLAYING_LIST_URL,MainActivity.this
+                ,recyclerViewNowPlaying, linearLayoutManagerNowPlaying,nowPlayingTotalMovieArrayList);
         nowPlaying.download();
 
         sliderImageDownload(JSON_UP_COMING_LIST_URL);
@@ -157,40 +167,51 @@ public class MainActivity extends AppCompatActivity {
     public void recyclerViewScrollListener(){
 
         recyclerViewPop.addOnScrollListener(new RecyclerOnScrollListener(linearLayoutManagerPop) {
+
             @Override
             public void onLoadMore(int currentPage) {
-                String url="https://api.themoviedb.org/3/movie/popular?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
-                DownLoader downLoader=new DownLoader(String.format(url,currentPage),MainActivity.this
-                        ,recyclerViewPop,linearLayoutManagerPop);
-                 downLoader.download();
+                progressBarPopular.setVisibility(View.VISIBLE);
+                new Handler().postDelayed(new Runnable() {
 
+                    @Override
+                    public void run() {
+                        Log.d(TAG, "run: CURRENTPAGE"+currentPage);
+                        String url="https://api.themoviedb.org/3/movie/popular?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
+                        MovieDownLoader movieDownLoader =new MovieDownLoader(String.format(url,currentPage),MainActivity.this
+                                ,recyclerViewPop,linearLayoutManagerPop, popularTotalMovieArrayList);
+                        movieDownLoader.download();
+                        progressBarPopular.setVisibility(View.GONE);
+
+                    }
+                },1000);
             }
         });
         recyclerViewUpComing.addOnScrollListener(new RecyclerOnScrollListener(linearLayoutManagerUpComing) {
             @Override
             public void onLoadMore(int currentPage) {
+
                 String url="https://api.themoviedb.org/3/movie/upcoming?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
-                DownLoader downLoader=new DownLoader(String.format(url,currentPage),MainActivity.this
-                        ,recyclerViewUpComing,linearLayoutManagerUpComing);
-                downLoader.download();
+                MovieDownLoader movieDownLoader =new MovieDownLoader(String.format(url,currentPage),MainActivity.this
+                        ,recyclerViewUpComing,linearLayoutManagerUpComing,upComingTotalMovieArrayList);
+                movieDownLoader.download();
             }
         });
         recyclerViewNowPlaying.addOnScrollListener(new RecyclerOnScrollListener(linearLayoutManagerNowPlaying) {
             @Override
             public void onLoadMore(int currentPage) {
                 String url="https://api.themoviedb.org/3/movie/now_playing?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
-                DownLoader downLoader=new DownLoader(String.format(url,currentPage),MainActivity.this
-                        ,recyclerViewNowPlaying,linearLayoutManagerNowPlaying);
-                downLoader.download();
+                MovieDownLoader movieDownLoader =new MovieDownLoader(String.format(url,currentPage),MainActivity.this
+                        ,recyclerViewNowPlaying,linearLayoutManagerNowPlaying,nowPlayingTotalMovieArrayList);
+                movieDownLoader.download();
             }
         });
         recyclerViewTopRate.addOnScrollListener(new RecyclerOnScrollListener(linearLayoutManagerTopRate) {
             @Override
             public void onLoadMore(int currentPage) {
                 String url="https://api.themoviedb.org/3/movie/top_rated?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
-                DownLoader downLoader=new DownLoader(String.format(url,currentPage),MainActivity.this
-                        ,recyclerViewTopRate,linearLayoutManagerTopRate);
-                downLoader.download();
+                MovieDownLoader movieDownLoader =new MovieDownLoader(String.format(url,currentPage),MainActivity.this
+                        ,recyclerViewTopRate,linearLayoutManagerTopRate,topRateTotalMovieArrayList);
+                movieDownLoader.download();
 
 
             }
@@ -203,13 +224,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void initializeComponent(){
         recyclerViewPop=findViewById(R.id.recyclerViewRowPopular);
-        recyclerViewTopRate=findViewById(R.id.recyclerViewRowTopRAte);
+        recyclerViewTopRate=findViewById(R.id.recyclerViewRowTopRate);
         recyclerViewUpComing=findViewById(R.id.recyclerViewRowUpComing);
         recyclerViewNowPlaying=findViewById(R.id.recyclerViewRowNowPlaying);
+
         textViewTitlePopular=findViewById(R.id.editTextRowTitlePopular);
         textViewTitleNowPlaying=findViewById(R.id.editTextRowTitleNowPlaying);
         textViewTitleTopRate=findViewById(R.id.editTextRowTitleTopRate);
         textViewTitleUpComing=findViewById(R.id.editTextRowTitleUpComing);
+
+        progressBarPopular=findViewById(R.id.progressBar_Popular);
+        progressBarNowPlaying=findViewById(R.id.progressBar_NowPlaying);
+        progressBarTopRate=findViewById(R.id.progressBar_TopRate);
+        progressBarUpComing=findViewById(R.id.progressBar_UpComing);
+
         sliderView=findViewById(R.id.imageSlider);
     }
 }
