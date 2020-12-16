@@ -1,8 +1,10 @@
 package com.grs21.movieNotes.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.TimedText;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.grs21.movieNotes.R;
+import com.grs21.movieNotes.activity.MovieDetailActivity;
 import com.grs21.movieNotes.model.Movie;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
@@ -20,11 +23,12 @@ import java.util.List;
 
 public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.SliderViewAdapterVH> {
 
-
+    private static final String TAG = "SliderImageAdapter";
     private  ArrayList<Movie> movieSliderItem;
+    private Context context;
 
-    public SliderImageAdapter(ArrayList<Movie> movieSliderItem ){
-
+    public SliderImageAdapter(ArrayList<Movie> movieSliderItem ,Context context){
+        this.context=context;
         this.movieSliderItem=movieSliderItem;
     }
     @Override
@@ -49,6 +53,11 @@ public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.Sli
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent=new Intent(v.getContext(), MovieDetailActivity.class);
+                intent.putExtra("id",movieSliderItem.get(position).getId());
+                Log.d(TAG, "onClick: "+movieSliderItem.get(position).getId());
+                v.getContext().startActivity(intent);
 
             }
         });

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollListener {
 
     private boolean isScrolling= false;
-    int currentItem, scrollOutItems, totalItems;
+    int currentItem, scrollOutItems, totalItems,lastVisibleItem;
 
     private int currentPage=1;
     private final LinearLayoutManager myLinearLayoutManager;
@@ -33,14 +33,16 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
         currentItem  = myLinearLayoutManager.getChildCount();
         totalItems = myLinearLayoutManager.getItemCount();
         scrollOutItems = myLinearLayoutManager.findFirstVisibleItemPosition();
+        lastVisibleItem=myLinearLayoutManager.findLastVisibleItemPosition();
+
 
         if (isScrolling && (currentItem+scrollOutItems==totalItems)){
             currentPage++;
             isScrolling=false;
-            onLoadMore(currentPage);
+            onLoadMore(currentPage,lastVisibleItem);
         }
     }
 
-    public abstract  void onLoadMore(int currentPage);
+    public abstract  void onLoadMore(int currentPage,int lastVisibleItem);
 
 }

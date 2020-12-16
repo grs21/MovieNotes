@@ -25,6 +25,14 @@ public class Movie implements Serializable {
 
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setMoviesSaveArrayList(ArrayList<Integer> moviesSaveArrayList) {
         this.moviesSaveArrayList = moviesSaveArrayList;
     }
