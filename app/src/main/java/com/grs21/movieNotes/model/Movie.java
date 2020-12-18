@@ -10,19 +10,36 @@ public class Movie implements Serializable {
     private String rank;
     private String movieName;
     private String movieDirector;
-    private String movieYear;
+    private String releaseDate;
+    private String movieBackdropPathImageUrl;
     private List movieActor;
-    private String movieImageURL;
+    private ArrayList<String> movieGenres=new ArrayList<>();
+    private String moviePosterImageURL;
     public  ArrayList<Integer> moviesSaveArrayList =new ArrayList<>();
 
-    public Movie( String movieDirector, List movieActor,String movieName) {
 
-        this.movieName=movieName;
-        this.movieDirector = movieDirector;
-        this.movieActor = movieActor;
+    public ArrayList<String> getMovieGenres() {
+        return movieGenres;
     }
-    public Movie(){
 
+    public void setMovieGenres(ArrayList<String> movieGenres) {
+        this.movieGenres = movieGenres;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public String getMovieBackdropPathImageUrl() {
+        return movieBackdropPathImageUrl;
+    }
+
+    public void setMovieBackdropPathImageUrl(String movieBackdropPathImageUrl) {
+        this.movieBackdropPathImageUrl = movieBackdropPathImageUrl;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Integer getId() {
@@ -41,12 +58,12 @@ public class Movie implements Serializable {
         return moviesSaveArrayList;
     }
 
-    public String getMovieImageURL() {
-        return movieImageURL;
+    public String getMoviePosterImageURL() {
+        return moviePosterImageURL;
     }
 
-    public void setMovieImageURL(String movieImageURL) {
-        this.movieImageURL = movieImageURL;
+    public void setMoviePosterImageURL(String moviePosterImageURL) {
+        this.moviePosterImageURL = moviePosterImageURL;
     }
 
     public String getRank() {

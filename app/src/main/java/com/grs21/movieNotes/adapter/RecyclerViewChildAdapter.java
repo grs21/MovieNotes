@@ -8,12 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.activity.MovieDetailActivity;
-import com.grs21.movieNotes.model.Category;
 import com.grs21.movieNotes.model.Movie;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -47,16 +46,16 @@ public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerView
 
         Log.d(TAG, "onBindViewHolder: MOVIE_ARRAY_LIST:"+movieArrayList.get(position));
         Picasso.get().load("https://image.tmdb.org/t/p/w500/" + movieArrayList.get(position)
-                        .getMovieImageURL()).into(holder.imageViewRowMovieImage);
+                        .getMoviePosterImageURL()).into(holder.imageViewRowMovieImage);
 
         holder.imageViewRowMovieImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent=new Intent(v.getContext(), MovieDetailActivity.class);
-                intent.putExtra("id",movieArrayList.get(position).getId());
+                Movie movie=movieArrayList.get(position);
+                intent.putExtra("movie",movie);
                 v.getContext().startActivity(intent);
-                Log.d(TAG, "onClick: "+movieArrayList.get(position).getId());
             }
         });
 

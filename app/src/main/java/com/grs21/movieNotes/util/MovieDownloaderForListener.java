@@ -1,7 +1,6 @@
 package com.grs21.movieNotes.util;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,7 +10,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.grs21.movieNotes.adapter.RecyclerViewChildAdapter;
 import com.grs21.movieNotes.adapter.RecyclerViewParentAdapter;
 import com.grs21.movieNotes.model.Category;
 import com.grs21.movieNotes.model.Movie;
@@ -83,7 +81,10 @@ public class MovieDownloaderForListener {
                         Movie movie = new Movie();
                         movie.setId(jsonArray.getJSONObject(i).getInt("id"));
                         movie.setMovieName(jsonArray.getJSONObject(i).getString("title"));
-                        movie.setMovieImageURL(jsonArray.getJSONObject(i).getString("poster_path"));
+                        movie.setMoviePosterImageURL(jsonArray.getJSONObject(i).getString("poster_path"));
+                        movie.setRank(jsonArray.getJSONObject(i).getString("vote_average"));
+                        movie.setReleaseDate(jsonArray.getJSONObject(i).getString("release_date"));
+                        movie.setMovieBackdropPathImageUrl(jsonArray.getJSONObject(i).getString("backdrop_path"));
                         movieArrayList.add(movie);
                     }
                     Log.d(TAG, "onResponse:"+titleCategory+":"+movieArrayList);

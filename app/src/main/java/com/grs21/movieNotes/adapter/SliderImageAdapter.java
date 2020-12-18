@@ -3,14 +3,12 @@ package com.grs21.movieNotes.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.TimedText;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.activity.MovieDetailActivity;
@@ -19,17 +17,16 @@ import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.SliderViewAdapterVH> {
 
     private static final String TAG = "SliderImageAdapter";
-    private  ArrayList<Movie> movieSliderItem;
+    private  ArrayList<Movie> movieSliderItemArrayList;
     private Context context;
 
-    public SliderImageAdapter(ArrayList<Movie> movieSliderItem ,Context context){
+    public SliderImageAdapter(ArrayList<Movie> movieSliderItemArrayList, Context context){
         this.context=context;
-        this.movieSliderItem=movieSliderItem;
+        this.movieSliderItemArrayList = movieSliderItemArrayList;
     }
     @Override
     public SliderViewAdapterVH onCreateViewHolder(ViewGroup parent) {
@@ -42,21 +39,21 @@ public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.Sli
     @Override
     public void onBindViewHolder(SliderViewAdapterVH viewHolder, int position) {
 
-        Movie movie=movieSliderItem.get(position);
+        Movie movie= movieSliderItemArrayList.get(position);
 
         viewHolder.textViewDescription.setText(movie.getMovieName());
         viewHolder.textViewDescription.setTextSize(16);
         viewHolder.textViewDescription.setTextColor(Color.WHITE);
 
-        Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movieSliderItem.get(position).getMovieImageURL()).fit().into(viewHolder.imageVieBackground);
+        Picasso.get().load("https://image.tmdb.org/t/p/w500/"+ movieSliderItemArrayList.get(position).getMoviePosterImageURL()).fit().into(viewHolder.imageVieBackground);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent=new Intent(v.getContext(), MovieDetailActivity.class);
-                intent.putExtra("id",movieSliderItem.get(position).getId());
-                Log.d(TAG, "onClick: "+movieSliderItem.get(position).getId());
+                Movie movie= movieSliderItemArrayList.get(position);
+                intent.putExtra("movie",movie);
                 v.getContext().startActivity(intent);
 
             }
@@ -65,7 +62,7 @@ public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.Sli
 
     @Override
     public int getCount() {
-        return movieSliderItem.size();
+        return movieSliderItemArrayList.size();
     }
 
     class SliderViewAdapterVH extends SliderViewAdapter.ViewHolder {

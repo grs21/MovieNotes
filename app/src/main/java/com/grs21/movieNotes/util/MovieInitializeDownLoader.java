@@ -66,11 +66,9 @@ public class MovieInitializeDownLoader {
                         movie.setId(jsonArray.getJSONObject(i).getInt("id"));
                         movie.setRank(jsonArray.getJSONObject(i).getString("vote_average"));
                         movie.setMovieName(jsonArray.getJSONObject(i).getString("title"));
-                        JSONArray jsonArray1 = jsonArray.getJSONObject(i).getJSONArray("genre_ids");
-                        for (int b = 0; b < jsonArray1.length(); b++) {
-                            movie.moviesSaveArrayList.add((Integer) jsonArray1.get(b));
-                        }
-                        movie.setMovieImageURL(jsonArray.getJSONObject(i).getString("poster_path"));
+                        movie.setReleaseDate(jsonArray.getJSONObject(i).getString("release_date"));
+                        movie.setMovieBackdropPathImageUrl(jsonArray.getJSONObject(i).getString("backdrop_path"));
+                        movie.setMoviePosterImageURL(jsonArray.getJSONObject(i).getString("poster_path"));
                         movieArrayList.add(movie);
                     }
 
