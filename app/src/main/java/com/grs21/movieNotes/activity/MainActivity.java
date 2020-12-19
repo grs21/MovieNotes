@@ -1,12 +1,16 @@
 package com.grs21.movieNotes.activity;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 
@@ -69,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initializeComponent();
 
+
+
         linearLayoutManagerPop =new LinearLayoutManager(this);
         linearLayoutManagerPop.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManagerTopRate =new LinearLayoutManager(this);
@@ -97,6 +103,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.bottom_nav_menu,menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        startActivity( new Intent(MainActivity.this,UserMovieTopListActivity.class));
+
+        return super.onOptionsItemSelected(item);
+    }
 
     public void sliderImageDownload(String imageDataURL){
 

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+
+    >
+
+            <ImageView
+                android:id="@+id/topListImage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/placeholder" />
+
+            <TextView
+                android:id="@+id/topListReleaseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                android:text="releaseDate"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/topListMovieName"
+                app:layout_constraintTop_toBottomOf="@+id/topListMovieName" />
+
+            <TextView
+                android:id="@+id/topListMovieName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="108dp"
+                android:text="MOVIE_NAME"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/deleteMovieButton" />
+            <ImageButton
+                android:id="@+id/deleteMovieButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/newBlack"
+                android:scaleType="fitCenter"
+                android:src="@drawable/baseline_highlight_off_red_500_24dp"
+                app:layout_constraintStart_toEndOf="@+id/topListImage"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/topListEditTextRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:background="@drawable/text_view"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                app:layout_constraintStart_toEndOf="@+id/deleteMovieButton"
+                app:layout_constraintTop_toTopOf="@+id/deleteMovieButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,11 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
-        <activity android:name=".activity.MovieDetailActivity"
+        <activity android:name=".activity.UserMovieTopListActivity"
             android:parentActivityName=".activity.MainActivity"
-            >
 
-        </activity>
+            ></activity>
+        <activity android:name=".activity.MovieDetailActivity"
+            android:parentActivityName=".activity.MainActivity"></activity>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

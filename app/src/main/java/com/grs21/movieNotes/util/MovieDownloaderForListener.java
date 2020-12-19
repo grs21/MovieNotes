@@ -77,7 +77,7 @@ public class MovieDownloaderForListener {
                 try {
 
                     JSONArray jsonArray = response.getJSONArray("results");
-                    for (int i = 0; i < 13; i++) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         Movie movie = new Movie();
                         movie.setId(jsonArray.getJSONObject(i).getInt("id"));
                         movie.setMovieName(jsonArray.getJSONObject(i).getString("title"));

@@ -1,7 +1,8 @@
 package com.grs21.movieNotes.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.grs21.movieNotes.R;
+import com.grs21.movieNotes.adapter.RecyclerViewDetailActorAdapter;
+import com.grs21.movieNotes.model.Actor;
 import com.grs21.movieNotes.model.Movie;
 import com.grs21.movieNotes.util.HttpConnector;
 import com.squareup.picasso.Picasso;
@@ -26,11 +29,13 @@ import java.util.ArrayList;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
-    private CardView cardView;
+    private ArrayList<Actor> actorArrayList=new ArrayList<>();
     private ImageView movieImage,cardViewBackGround;
-    private TextView movieName,releaseDate, textViewRank,genresTextView,overviewTextView;
+    private TextView textViewMovieName, textViewReleaseDate, textViewRank, textViewGenres, textViewOverview;
     private Movie movie;
-    private final String baseURL="https://api.themoviedb.org/3/movie/%d?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US";
+    private RecyclerView recyclerView;
+
+    private final String baseURL="https://api.themoviedb.org/3/movie/%d?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&append_to_response=credits";
 
 
     private Intent intent;
@@ -40,11 +45,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initializeComponent();
         intent=getIntent();
         movie=(Movie) intent.getSerializableExtra("movie");
 
 
-        initializeComponent();
+
         setComponentValue();
         detailDownloader(baseURL,movie.getId());
     }
@@ -58,16 +64,29 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
 
-                try {
-                    JSONObject jsonObject=response;
 
-                    overviewTextView.setText(jsonObject.getString("overview"));
+                try {
+                    JSONObject jsonObject= response.getJSONObject("credits");
+                   JSONArray jsonArray1=jsonObject.getJSONArray("cast");
+                    for (int i = 0; i <10 ; i++) {
+                        Actor actor=new Actor(jsonArray1.getJSONObject(i).getString("name")
+                        ,jsonArray1.getJSONObject(i).getString("profile_path"));
+                        actorArrayList.add(actor);
+                    }
+                    RecyclerViewDetailActorAdapter recyclerViewDetailActorAdapter=new RecyclerViewDetailActorAdapter(actorArrayList);
+                    LinearLayoutManager layoutManager=new LinearLayoutManager(MovieDetailActivity.this
+                            ,LinearLayoutManager.HORIZONTAL,false);
+                    recyclerView.setAdapter(recyclerViewDetailActorAdapter);
+                    recyclerView.setLayoutManager(layoutManager);
+
+
+                    textViewOverview.setText(response.getString("overview"));
 
                     JSONArray jsonArray=response.getJSONArray("genres");
                     for (int i = 0; i <jsonArray.length() ; i++) {
                         movie.getMovieGenres().add(jsonArray.getJSONObject(i).getString("name"));
                     }
-                    genresTextView.setText(movie.getMovieGenres().toString());
+                    textViewGenres.setText(movie.getMovieGenres().toString());
 
 
                 } catch (JSONException e) {
@@ -94,25 +113,29 @@ public class MovieDetailActivity extends AppCompatActivity {
         Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movie.getMovieBackdropPathImageUrl()).into(cardViewBackGround);
         Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movie.getMoviePosterImageURL())
                 .into(movieImage);
-        movieName.setText(movie.getMovieName());
-        releaseDate.setText(movie.getReleaseDate());
+        textViewMovieName.setText(movie.getMovieName());
+        textViewReleaseDate.setText(movie.getReleaseDate());
         textViewRank.setText(movie.getRank());
         ArrayList<String>genres=new ArrayList<>();
         genres.add("Action");
         genres.add("Popular");
-        genresTextView.setText(genres.toString().trim());
+        textViewGenres.setText(genres.toString().trim());
 
     }
 
 
     private void initializeComponent() {
         cardViewBackGround=findViewById(R.id.cardViewImageBackGround);
-        movieImage=findViewById(R.id.detailImageView);
-        movieName=findViewById(R.id.textViewMovieNameDetail);
-        releaseDate=findViewById(R.id.textViewMovieDetailReleaseDate);
-        textViewRank =findViewById(R.id.editTextRank);
-        genresTextView=findViewById(R.id.textViewGenres);
-        overviewTextView=findViewById(R.id.textViewOverView);
+
+        movieImage=findViewById(R.id.topListImage);
+
+        textViewMovieName =findViewById(R.id.topListMovieName);
+        textViewReleaseDate =findViewById(R.id.topListReleaseDate);
+        textViewRank =findViewById(R.id.topListEditTextRank);
+        textViewGenres =findViewById(R.id.textViewGenres);
+        textViewOverview =findViewById(R.id.textViewOverView);
+
+        recyclerView=findViewById(R.id.recyclerViewActor);
     }
 
 
