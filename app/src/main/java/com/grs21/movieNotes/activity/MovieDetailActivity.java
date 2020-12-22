@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +28,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -34,7 +41,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView textViewMovieName, textViewReleaseDate, textViewRank, textViewGenres, textViewOverview;
     private Movie movie;
     private RecyclerView recyclerView;
-
+    private ImageButton imageButton;
+    private static final String MOVIE_NAME="movie_id.txt";
     private final String baseURL="https://api.themoviedb.org/3/movie/%d?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&append_to_response=credits";
 
 
@@ -53,6 +61,37 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         setComponentValue();
         detailDownloader(baseURL,movie.getId());
+        movieAddButtonListener();
+    }
+
+    private void movieAddButtonListener() {
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FileOutputStream fileOutputStream=null;
+
+                try {
+
+                    fileOutputStream=v.getContext().openFileOutput("movie_id.txt", Context.MODE_APPEND);
+                    byte[]id=movie.getId().toString().getBytes();
+                    fileOutputStream.write(" ".getBytes());
+                    fileOutputStream.write(id);
+                    Log.d(TAG, "onClick: "+movie.getId().toString());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        if (fileOutputStream!=null){
+                            fileOutputStream.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     private void detailDownloader(String url,int movieId) {
@@ -136,6 +175,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewOverview =findViewById(R.id.textViewOverView);
 
         recyclerView=findViewById(R.id.recyclerViewActor);
+
+        imageButton=findViewById(R.id. detailAddMovieButton);
     }
 
 

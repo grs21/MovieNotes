@@ -65,22 +65,23 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/deleteMovieButton" />
+                app:layout_constraintStart_toStartOf="@+id/detailAddMovieButton" />
 
             <ImageButton
-                android:id="@+id/deleteMovieButton"
+                android:id="@+id/detailAddMovieButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="9dp"
                 android:layout_marginEnd="13dp"
-                android:layout_marginBottom="284dp"
+                android:layout_marginBottom="272dp"
 
                 android:background="@color/newBlack"
                 android:scaleType="fitCenter"
                 android:src="@drawable/baseline_bookmark_white_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/topListEditTextRank"
-                app:layout_constraintStart_toEndOf="@+id/topListImage" />
+                app:layout_constraintStart_toEndOf="@+id/topListImage"
+                app:layout_constraintTop_toTopOf="@+id/topListImage" />
 
             <TextView
                 android:id="@+id/topListEditTextRank"
@@ -91,8 +92,8 @@
                 android:gravity="center"
 
                 android:textColor="#FFFFFF"
-                app:layout_constraintStart_toEndOf="@+id/deleteMovieButton"
-                app:layout_constraintTop_toTopOf="@+id/deleteMovieButton" />
+                app:layout_constraintStart_toEndOf="@+id/detailAddMovieButton"
+                app:layout_constraintTop_toTopOf="@+id/detailAddMovieButton" />
 
             <TextView
                 android:id="@+id/textViewOverView"

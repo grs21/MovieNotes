@@ -78,7 +78,6 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(@NonNull ViewHolderRowAdapter holder, int position) {
 
-        Log.d(TAG, "onBindViewHolder: Parent'a Tekrar Geldi:"+categoryList);
         holder.textViewRowTitle.setText(categoryList.get(position).getCategoryTitle());
 
 

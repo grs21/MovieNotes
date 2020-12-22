@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.model.Movie;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -39,9 +41,24 @@ public class RecyclerViewUserTopMovieListAdapter extends RecyclerView.Adapter<Re
 
         Movie movie=movieArrayList.get(position);
 
+        holder.rankTextView.setText(movie.getRank());
+        holder.movieNameTextView.setText(movie.getMovieName());
+        holder.movieReleaseDateTextView.setText(movie.getReleaseDate());
+        Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movie.getMoviePosterImageURL())
+                .into(holder.imageView);
 
+        movieDeleteButton(holder);
 
+    }
 
+    private void movieDeleteButton(TopMovieListVH holder) {
+
+        holder.deleteMovieImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo:delete to local file
+            }
+        });
     }
 
     @Override
@@ -52,10 +69,18 @@ public class RecyclerViewUserTopMovieListAdapter extends RecyclerView.Adapter<Re
     public class TopMovieListVH extends  RecyclerView.ViewHolder {
 
         ImageView imageView;
-        TextView rankTextView,movieName,movieReleaseDate;
+        TextView rankTextView, movieNameTextView, movieReleaseDateTextView;
+        ImageButton deleteMovieImageButton;
 
         public TopMovieListVH(@NonNull View itemView) {
             super(itemView);
+            deleteMovieImageButton =itemView.findViewById(R.id.detailAddMovieButton);
+
+            imageView=itemView.findViewById(R.id.topListImage);
+
+            rankTextView=itemView.findViewById(R.id.topListEditTextRank);
+            movieNameTextView =itemView.findViewById(R.id.topListMovieName);
+            movieReleaseDateTextView =itemView.findViewById(R.id.topListReleaseDate);
 
         }
     }

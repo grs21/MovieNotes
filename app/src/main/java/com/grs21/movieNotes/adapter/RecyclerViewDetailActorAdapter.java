@@ -3,7 +3,7 @@ package com.grs21.movieNotes.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,11 +40,13 @@ public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<Recycle
         if(actorArrayList.get(position).getActorPosterURl()==null ||actorArrayList.get(position).getActorPosterURl().isEmpty()){
                     holder.imageView.setImageResource(R.drawable.ic_launcher_foreground);
         }
-        else
+        else{
             Picasso.get().load("https://image.tmdb.org/t/p/w500/"+actorArrayList.get(position)
                     .getActorPosterURl()).into(holder.imageView);
-
+        }
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -58,6 +60,7 @@ public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<Recycle
             super(itemView);
             imageView=itemView.findViewById(R.id.actor_image);
             textView=itemView.findViewById(R.id.actor_name_textView);
+
         }
     }
 }
