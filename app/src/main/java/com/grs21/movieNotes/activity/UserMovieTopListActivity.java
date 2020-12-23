@@ -1,21 +1,14 @@
 package com.grs21.movieNotes.activity;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,21 +18,21 @@ import com.grs21.movieNotes.adapter.RecyclerViewUserTopMovieListAdapter;
 import com.grs21.movieNotes.model.Movie;
 import com.grs21.movieNotes.util.HttpConnector;
 import com.smarteist.autoimageslider.IndicatorView.animation.data.Value;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class UserMovieTopListActivity extends AppCompatActivity {
 
     private static final String TAG = "UserMovieTopListActivit";
     private RecyclerView recyclerView;
     private static final String BASE_URL="https://api.themoviedb.org/3/movie/%s?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US";
+    private static final String JSON_OBJECT_KEYWORD_ID="id";
+    private static final String JSON_OBJECT_KEYWORD_MOVIE_TITLE="title";
+    private static final String JSON_OBJECT_KEYWORD_POSTER_PATH="poster_path";
+    private static final String JSON_OBJECT_KEYWORD_VOTE_AVERAGE="vote_average";
+    private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +49,7 @@ public class UserMovieTopListActivity extends AppCompatActivity {
 
 
     }
+    @SuppressLint("StaticFieldLeak")
     public class MovieDownLoader extends AsyncTask<ArrayList<String>, Value,String>{
 
         @Override
@@ -65,9 +59,6 @@ public class UserMovieTopListActivity extends AppCompatActivity {
 
             for (int i = 0; i < arrayLists[0].size(); i++) {
                 movieId = arrayLists[0].get(i);
-
-                Log.d(TAG, "doInBackground: "+movieId);
-
                 @SuppressLint("DefaultLocale")
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                         Request.Method.GET
@@ -78,15 +69,13 @@ public class UserMovieTopListActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Movie movie = new Movie();
                         try {
-
-                            movie.setId(response.getInt("id"));
-                            movie.setMovieName(response.getString("title"));
-                            movie.setReleaseDate(response.getString("release_date"));
-                            movie.setRank(response.getString("vote_average"));
-                            movie.setMoviePosterImageURL(response.getString("poster_path"));
+                            movie.setId(response.getInt(JSON_OBJECT_KEYWORD_ID));
+                            movie.setMovieName(response.getString(JSON_OBJECT_KEYWORD_MOVIE_TITLE));
+                            movie.setReleaseDate(response.getString(JSON_OBJECT_KEYWORD_RELEASE_DATE));
+                            movie.setRank(response.getString(JSON_OBJECT_KEYWORD_VOTE_AVERAGE));
+                            movie.setMoviePosterImageURL(response.getString(JSON_OBJECT_KEYWORD_POSTER_PATH));
                             movieArrayList.add(movie);
                             if (movieArrayList.size() == arrayLists[0].size()) {
-                                Log.d(TAG, "onResponse: in if");
                                 RecyclerViewUserTopMovieListAdapter topListAdapter = new RecyclerViewUserTopMovieListAdapter(
                                         UserMovieTopListActivity.this, movieArrayList);
                                 LinearLayoutManager layoutManager = new LinearLayoutManager(UserMovieTopListActivity.this);
@@ -101,7 +90,6 @@ public class UserMovieTopListActivity extends AppCompatActivity {
                         , new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         Log.d(TAG, "onErrorResponse: "+error);
                     }
                 }
@@ -114,7 +102,6 @@ public class UserMovieTopListActivity extends AppCompatActivity {
 
 
     private void initializeComponent() {
-
         recyclerView=findViewById(R.id.recyclerViewMovieList);
     }
 }

@@ -3,36 +3,27 @@ package com.grs21.movieNotes.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.model.Actor;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<RecyclerViewDetailActorAdapter.ActorVH> {
-
     ArrayList<Actor> actorArrayList;
-
     public RecyclerViewDetailActorAdapter(ArrayList<Actor> actorArrayList){
         this.actorArrayList=actorArrayList;
 
     }
-
     @NonNull
     @Override
     public ActorVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_recyclerview_actor_item,parent,false);
-
         return new ActorVH(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ActorVH holder, int position) {
 
@@ -45,9 +36,6 @@ public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<Recycle
                     .getActorPosterURl()).into(holder.imageView);
         }
     }
-
-
-
     @Override
     public int getItemCount() {
         return actorArrayList.size();

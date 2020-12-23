@@ -15,10 +15,8 @@ public final  class HttpConnector {
      private Context context;
 
      private HttpConnector (Context context){
-
          this.context=context;
          this.requestQueue=getRequestQueue();
-         Log.d(TAG, "HttpConnector:New Connected!!");
      }
 
      public RequestQueue getRequestQueue(){
@@ -38,8 +36,7 @@ public final  class HttpConnector {
 
      //Todo:Generics addRequest
      public <T> void addRequestQue(Request<T> request){
-
-                getRequestQueue().add(request);
+         getRequestQueue().add(request);
      }
 
 }

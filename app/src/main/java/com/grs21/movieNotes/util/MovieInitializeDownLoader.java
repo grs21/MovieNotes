@@ -19,6 +19,14 @@ import java.util.ArrayList;
 
 public class MovieInitializeDownLoader {
 
+    private static final String JSON_OBJECT_KEYWORD_ID="id";
+    private static final String JSON_OBJECT_KEYWORD_MOVIE_TITLE="title";
+    private static final String JSON_OBJECT_KEYWORD_POSTER_PATH="poster_path";
+    private static final String JSON_OBJECT_KEYWORD_VOTE_AVERAGE="vote_average";
+    private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
+    private static final String JSON_OBJECT_KEYWORD_RESULT ="result";
+    private static final String JSON_OBJECT_KEYWORD_BACKDROP_PATH="backdrop_path";
+
     private static final String TAG = "DownLoader";
     private Movie movie;
     private ArrayList<Movie> movieArrayList;
@@ -59,61 +67,46 @@ public class MovieInitializeDownLoader {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray jsonArray = response.getJSONArray("results");
+                    JSONArray jsonArray = response.getJSONArray(JSON_OBJECT_KEYWORD_RESULT);
                         movieArrayList=new ArrayList<>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         movie = new Movie();
-                        movie.setId(jsonArray.getJSONObject(i).getInt("id"));
-                        movie.setRank(jsonArray.getJSONObject(i).getString("vote_average"));
-                        movie.setMovieName(jsonArray.getJSONObject(i).getString("title"));
-                        movie.setReleaseDate(jsonArray.getJSONObject(i).getString("release_date"));
-                        movie.setMovieBackdropPathImageUrl(jsonArray.getJSONObject(i).getString("backdrop_path"));
-                        movie.setMoviePosterImageURL(jsonArray.getJSONObject(i).getString("poster_path"));
+                        movie.setId(jsonArray.getJSONObject(i).getInt(JSON_OBJECT_KEYWORD_ID));
+                        movie.setRank(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_VOTE_AVERAGE));
+                        movie.setMovieName(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_MOVIE_TITLE));
+                        movie.setReleaseDate(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_RELEASE_DATE));
+                        movie.setMovieBackdropPathImageUrl(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_BACKDROP_PATH));
+                        movie.setMoviePosterImageURL(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_POSTER_PATH));
                         movieArrayList.add(movie);
                     }
 
                     switch (titleCategory){
 
                         case "Popular":
-
                             popularMovieArrayList.addAll(movieArrayList);
-
                             categoryPopular.setCategoryTitle(titleCategory);
                             categoryPopular.setMovieArrayList(popularMovieArrayList);
                             categoryArrayList.add(categoryPopular);
                             break;
                         case "Top Rate":
-
                             topRateMovieArrayList.addAll(movieArrayList);
-
                             categoryTopRate.setCategoryTitle(titleCategory);
                             categoryTopRate.setMovieArrayList(topRateMovieArrayList);
                             categoryArrayList.add(categoryTopRate);
                             break;
                         case "Up Coming":
-
                             upComingArrayList.addAll(movieArrayList);
-
                             categoryUpComing.setCategoryTitle(titleCategory);
                             categoryUpComing.setMovieArrayList(upComingArrayList);
                             categoryArrayList.add(categoryUpComing);
                             break;
                         case "Now Playing":
-
                             nowPlayingArrayList.addAll(movieArrayList);
-
                             categoryNowPlaying.setCategoryTitle(titleCategory);
                             categoryNowPlaying.setMovieArrayList(nowPlayingArrayList);
                             categoryArrayList.add(categoryNowPlaying);
                             break;
                     }
-
-
-                    Log.d(TAG, "onResponse: "+ categoryPopular );
-                    Log.d(TAG, "onResponse: "+ categoryTopRate);
-                    Log.d(TAG, "onResponse: "+ categoryUpComing);
-                    Log.d(TAG, "onResponse: "+ categoryNowPlaying);
-
                     RecyclerViewParentAdapter recyclerViewParentAdapter=new RecyclerViewParentAdapter(context
                                  ,categoryArrayList,recyclerView,layoutManager
                                  ,popularMovieArrayList,topRateMovieArrayList,upComingArrayList,nowPlayingArrayList
@@ -121,9 +114,7 @@ public class MovieInitializeDownLoader {
 
                              recyclerView.setAdapter(recyclerViewParentAdapter);
                              recyclerView.setLayoutManager(layoutManager);
-
-
-                    }
+                }
                     catch (JSONException e) {
                        e.printStackTrace();
                     }

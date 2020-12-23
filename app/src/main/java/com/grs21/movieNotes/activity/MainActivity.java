@@ -33,8 +33,6 @@
     import org.json.JSONObject;
     import java.util.ArrayList;
 
-
-
     public class MainActivity extends AppCompatActivity {
 
         private Movie movie;
@@ -44,6 +42,16 @@
         public static final String JSON_UP_COMING_LIST_URL="https://api.themoviedb.org/3/movie/upcoming?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
         public static final String JSON_NOW_PLAYING_LIST_URL="https://api.themoviedb.org/3/movie/now_playing?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
         private ArrayList<Movie> sliderViewImageArrayList=new ArrayList<>();
+        private static final String ON_CLICKED_TOP_LIST_BUTTON_MOVIE_ID_INTENT_KEY ="id";
+
+        private static final String JSON_OBJECT_KEYWORD_RESULT ="result";
+        private static final String JSON_OBJECT_KEYWORD_ID="id";
+        private static final String JSON_OBJECT_KEYWORD_MOVIE_TITLE="title";
+        private static final String JSON_OBJECT_KEYWORD_POSTER_PATH="poster_path";
+        private static final String JSON_OBJECT_KEYWORD_VOTE_AVERAGE="vote_average";
+        private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
+        private static final String JSON_OBJECT_KEYWORD_BACKDROP_PATH="backdrop_path";
+
         private SliderView sliderView;
         private RecyclerView recyclerViewParent;
         private ArrayList<Movie> popular =new ArrayList<>();
@@ -57,61 +65,49 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
             initializeComponent();
-
-
             LinearLayoutManager linearLayoutManagerParentRecyclerView = new LinearLayoutManager(this);
             linearLayoutManagerParentRecyclerView.setOrientation(LinearLayoutManager.VERTICAL);
-
             MovieInitializeDownLoader movieInitializeDownLoader =new MovieInitializeDownLoader(MainActivity.this,recyclerViewParent
                     , linearLayoutManagerParentRecyclerView,totalCategory,popular,topRate,upComing,nowPlaying);
-            movieInitializeDownLoader.download(JSON_POPULAR_LIST_URL,"Popular");
-            movieInitializeDownLoader.download(JSON_TOP_RATE_LIST_URl,"Top Rate");
-            movieInitializeDownLoader.download(JSON_NOW_PLAYING_LIST_URL,"Up Coming");
-            movieInitializeDownLoader.download(JSON_UP_COMING_LIST_URL,"Now Playing");
-
+            movieInitializeDownLoader.download(JSON_POPULAR_LIST_URL,getString(R.string.popular));
+            movieInitializeDownLoader.download(JSON_TOP_RATE_LIST_URl,getString(R.string.Top_Rate));
+            movieInitializeDownLoader.download(JSON_NOW_PLAYING_LIST_URL,getString(R.string.Up_coming));
+            movieInitializeDownLoader.download(JSON_UP_COMING_LIST_URL,getString(R.string.now_playing));
             sliderImageDownload(JSON_UP_COMING_LIST_URL);
         }
-
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
-
             getMenuInflater().inflate(R.menu.bottom_nav_menu,menu);
-
             return true;
         }
         @Override
         public boolean onOptionsItemSelected(@NonNull MenuItem item) {
             TxtFileReader txtFileReader=new TxtFileReader();
             Intent intent=new Intent(MainActivity.this,UserMovieTopListActivity.class);
-            intent.putStringArrayListExtra("id",txtFileReader.read());
+            intent.putStringArrayListExtra(ON_CLICKED_TOP_LIST_BUTTON_MOVIE_ID_INTENT_KEY,txtFileReader.read());
             startActivity( intent);
             return super.onOptionsItemSelected(item);
         }
-
-
         public void sliderImageDownload(String imageDataURL){
-
             JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET
                     , imageDataURL
                     , null
                     , new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-
                     try {
-                        JSONArray jsonArray=response.getJSONArray("results");
+                        JSONArray jsonArray=response.getJSONArray(JSON_OBJECT_KEYWORD_RESULT);
                         for (int i=0;i<13;i++){
                            movie=new Movie();
-                           movie.setId(jsonArray.getJSONObject(i).getInt("id"));
-                           movie.setMovieName(jsonArray.getJSONObject(i).getString("title"));
-                           movie.setMoviePosterImageURL(jsonArray.getJSONObject(i).getString("poster_path"));
-                           movie.setRank(jsonArray.getJSONObject(i).getString("vote_average"));
-                           movie.setReleaseDate(jsonArray.getJSONObject(i).getString("release_date"));
-                           movie.setMovieBackdropPathImageUrl(jsonArray.getJSONObject(i).getString("backdrop_path"));
+                           movie.setId(jsonArray.getJSONObject(i).getInt(JSON_OBJECT_KEYWORD_ID));
+                           movie.setMovieName(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_MOVIE_TITLE));
+                           movie.setMoviePosterImageURL(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_POSTER_PATH));
+                           movie.setRank(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_VOTE_AVERAGE));
+                           movie.setReleaseDate(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_RELEASE_DATE));
+                           movie.setMovieBackdropPathImageUrl(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_BACKDROP_PATH));
 
                            sliderViewImageArrayList.add(movie);
                         }
-
                         SliderImageAdapter sliderImageAdapter=new SliderImageAdapter(sliderViewImageArrayList,MainActivity.this);
                         sliderView.setSliderAdapter(sliderImageAdapter);
                         sliderView.startAutoCycle();

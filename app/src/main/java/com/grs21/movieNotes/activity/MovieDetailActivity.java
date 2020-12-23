@@ -9,8 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -33,14 +33,15 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class MovieDetailActivity extends AppCompatActivity {
+
+    private static final String ON_CLICKED_MOVIE_ID_INTENT_KEY="id";
+    private static final String ON_CLICKED_MOVIE_IN_MAIN_ACTIVITY_INTENT_KEY ="movie";
 
     private ArrayList<Actor> actorArrayList=new ArrayList<>();
     private ImageView movieImage,cardViewBackGround;
@@ -50,10 +51,16 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ImageButton imageButton;
     private static final String MOVIE_ID_FILE_NAME="movie_id.txt";
     private final String baseURL="https://api.themoviedb.org/3/movie/%d?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&append_to_response=credits";
-
-
     private Intent intent;
     private static final String TAG = "MovieDetailActivity";
+
+    private static final String JSON_OBJECT_KEYWORD_CREDITS ="credits";
+    private static final String JSON_OBJECT_KEYWORD_CAST ="cast";
+    private static final String JSON_OBJECT_KEYWORD_GENRES="genres";
+    private static final String JSON_OBJECT_KEYWORD_NAME="name";
+    private static final String JSON_OBJECT_KEYWORD_MOVIE_PROFILE_PATH="profile_path";
+    private static final String JSON_OBJECT_KEYWORD_OVERVIEW="overview";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,35 +68,27 @@ public class MovieDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initializeComponent();
         intent=getIntent();
-        movie=(Movie) intent.getSerializableExtra("movie");
-
-
+        movie=(Movie) intent.getSerializableExtra(ON_CLICKED_MOVIE_IN_MAIN_ACTIVITY_INTENT_KEY);
 
         setComponentValue();
         detailDownloader(baseURL,movie.getId());
         movieAddButtonListener();
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.bottom_nav_menu,menu);
-
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         TxtFileReader txtFileReader=new TxtFileReader();
         Intent intent=new Intent(MovieDetailActivity.this,UserMovieTopListActivity.class);
-        intent.putStringArrayListExtra("id",txtFileReader.read());
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putStringArrayListExtra(ON_CLICKED_MOVIE_ID_INTENT_KEY,txtFileReader.read());
         startActivity( intent);
-
         return  super.onOptionsItemSelected(item);
     }
 
     private void movieAddButtonListener() {
-
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,8 +106,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                         byte[] id = movie.getId().toString().getBytes();
                         fileOutputStream.write(" ".getBytes());
                         fileOutputStream.write(id);
-                        Log.d(TAG, "onClick: " + movie.getId().toString());
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
@@ -121,7 +118,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                         }
                     }
                 }
-                else Toast.makeText(MovieDetailActivity.this, "THIS FILM HAS ALREADY BEEN RECORDED", Toast.LENGTH_SHORT).show();
+                else {
+                    Toast toast = Toast.makeText(MovieDetailActivity.this, R.string.MOVIE_ALREADY_RECORDED, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
+                }
             }
         });
     }
@@ -134,14 +135,12 @@ public class MovieDetailActivity extends AppCompatActivity {
                 , new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
-
                 try {
-                    JSONObject jsonObject= response.getJSONObject("credits");
-                   JSONArray jsonArray1=jsonObject.getJSONArray("cast");
+                    JSONObject jsonObject= response.getJSONObject(JSON_OBJECT_KEYWORD_CREDITS);
+                    JSONArray jsonArray1=jsonObject.getJSONArray(JSON_OBJECT_KEYWORD_CAST);
                     for (int i = 0; i <10 ; i++) {
-                        Actor actor=new Actor(jsonArray1.getJSONObject(i).getString("name")
-                        ,jsonArray1.getJSONObject(i).getString("profile_path"));
+                        Actor actor=new Actor(jsonArray1.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_NAME)
+                        ,jsonArray1.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_MOVIE_PROFILE_PATH));
                         actorArrayList.add(actor);
                     }
                     RecyclerViewDetailActorAdapter recyclerViewDetailActorAdapter=new RecyclerViewDetailActorAdapter(actorArrayList);
@@ -149,52 +148,32 @@ public class MovieDetailActivity extends AppCompatActivity {
                             ,LinearLayoutManager.HORIZONTAL,false);
                     recyclerView.setAdapter(recyclerViewDetailActorAdapter);
                     recyclerView.setLayoutManager(layoutManager);
-
-
-                    textViewOverview.setText(response.getString("overview"));
-
-                    JSONArray jsonArray=response.getJSONArray("genres");
+                    textViewOverview.setText(response.getString(JSON_OBJECT_KEYWORD_OVERVIEW));
+                    JSONArray jsonArray=response.getJSONArray(JSON_OBJECT_KEYWORD_GENRES);
                     for (int i = 0; i <jsonArray.length() ; i++) {
-                        movie.getMovieGenres().add(jsonArray.getJSONObject(i).getString("name"));
+                        movie.getMovieGenres().add(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_NAME));
                     }
                     textViewGenres.setText(movie.getMovieGenres().toString());
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
                 Log.d(TAG, "onErrorResponse: "+error);
             }
         });
         HttpConnector.getInstance(MovieDetailActivity.this).addRequestQue(jsonObjectRequest);
-
     }
-
-
     private void setComponentValue() {
-
-
-
         Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movie.getMovieBackdropPathImageUrl()).into(cardViewBackGround);
         Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movie.getMoviePosterImageURL())
                 .into(movieImage);
         textViewMovieName.setText(movie.getMovieName());
         textViewReleaseDate.setText(movie.getReleaseDate());
         textViewRank.setText(movie.getRank());
-        ArrayList<String>genres=new ArrayList<>();
-        genres.add("Action");
-        genres.add("Popular");
-        textViewGenres.setText(genres.toString().trim());
-
     }
-
-
     private void initializeComponent() {
         cardViewBackGround=findViewById(R.id.cardViewImageBackGround);
 

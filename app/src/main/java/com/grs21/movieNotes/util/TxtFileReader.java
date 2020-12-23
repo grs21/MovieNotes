@@ -12,15 +12,20 @@ public class TxtFileReader {
 
 
     public synchronized ArrayList<String> read(){
-
+        Scanner scanner=null;
         File file=new File(FILE_ROOT);
-        try (Scanner scanner = new Scanner(file)) {
+        try {
+            scanner = new Scanner(file);
             while (scanner.hasNext()) {
                 scanner.useDelimiter(" ");
                 movieID.add(scanner.next());
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }finally {
+            if (scanner!=null){
+                scanner.close();
+            }
         }
         return movieID;
 

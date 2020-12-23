@@ -2,7 +2,7 @@ package com.grs21.movieNotes.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Movie implements Serializable {
 
@@ -12,7 +12,6 @@ public class Movie implements Serializable {
     private String movieDirector;
     private String releaseDate;
     private String movieBackdropPathImageUrl;
-    private List movieActor;
     private ArrayList<String> movieGenres=new ArrayList<>();
     private String moviePosterImageURL;
     public  ArrayList<Integer> moviesSaveArrayList =new ArrayList<>();
@@ -50,14 +49,6 @@ public class Movie implements Serializable {
         this.id = id;
     }
 
-    public void setMoviesSaveArrayList(ArrayList<Integer> moviesSaveArrayList) {
-        this.moviesSaveArrayList = moviesSaveArrayList;
-    }
-
-    public ArrayList<Integer> getMoviesSaveArrayList() {
-        return moviesSaveArrayList;
-    }
-
     public String getMoviePosterImageURL() {
         return moviePosterImageURL;
     }
@@ -80,22 +71,6 @@ public class Movie implements Serializable {
 
     public void setMovieName(String movieName) {
         this.movieName = movieName;
-    }
-
-    public String getMovieDirector() {
-        return movieDirector;
-    }
-
-    public void setMovieDirector(String movieDirector) {
-        this.movieDirector = movieDirector;
-    }
-
-    public List getMovieActor() {
-        return movieActor;
-    }
-
-    public void setMovieActor(List movieActor) {
-        this.movieActor = movieActor;
     }
 
     @Override

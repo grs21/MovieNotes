@@ -17,7 +17,6 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
         this.myLinearLayoutManager=linearLayoutManager;
     }
 
-
     @Override
     public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
@@ -29,13 +28,10 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-
         currentItem  = myLinearLayoutManager.getChildCount();
         totalItems = myLinearLayoutManager.getItemCount();
         scrollOutItems = myLinearLayoutManager.findFirstVisibleItemPosition();
         lastVisibleItem=myLinearLayoutManager.findLastVisibleItemPosition();
-
-
         if (isScrolling && (currentItem+scrollOutItems==totalItems)){
             currentPage++;
             isScrolling=false;
