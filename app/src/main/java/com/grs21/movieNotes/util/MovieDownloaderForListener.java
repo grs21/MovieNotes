@@ -122,21 +122,13 @@ public class MovieDownloaderForListener {
 
                             break;
                     }
-
-
-
                     Log.d(TAG, "onResponse: "+categoryArrayList);
-
-
-                            RecyclerViewParentAdapter recyclerViewParentAdapter=new RecyclerViewParentAdapter(context
+                    RecyclerViewParentAdapter recyclerViewParentAdapter=new RecyclerViewParentAdapter(context
                                         ,categoryArrayList,recyclerView,layoutManager,popularMovieArrayList,topRateMovieArrayList
                                         ,upComingArrayList,nowPlayingArrayList
                                         ,categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing,itemLastLocation);
                                         recyclerViewParentAdapter.notifyDataSetChanged();
-
-
-
-                   } catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 

@@ -13,12 +13,6 @@ public class Category {
     public Category() {
     }
 
-    public Category(String categoryTitle, ArrayList<Movie> movieArrayList) {
-
-        this.categoryTitle = categoryTitle;
-        this.movieArrayList = movieArrayList;
-    }
-
     public ArrayList<Movie> getMovieArrayList() {
         return movieArrayList;
     }
@@ -26,8 +20,6 @@ public class Category {
     public void setMovieArrayList(ArrayList<Movie> movieArrayList) {
         this.movieArrayList = movieArrayList;
     }
-
-
 
     public String getCategoryTitle() {
         return categoryTitle;

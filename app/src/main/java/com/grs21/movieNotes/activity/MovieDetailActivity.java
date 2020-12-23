@@ -1,5 +1,6 @@
 package com.grs21.movieNotes.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,10 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,6 +27,7 @@ import com.grs21.movieNotes.adapter.RecyclerViewDetailActorAdapter;
 import com.grs21.movieNotes.model.Actor;
 import com.grs21.movieNotes.model.Movie;
 import com.grs21.movieNotes.util.HttpConnector;
+import com.grs21.movieNotes.util.TxtFileReader;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -42,7 +48,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Movie movie;
     private RecyclerView recyclerView;
     private ImageButton imageButton;
-    private static final String MOVIE_NAME="movie_id.txt";
+    private static final String MOVIE_ID_FILE_NAME="movie_id.txt";
     private final String baseURL="https://api.themoviedb.org/3/movie/%d?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&append_to_response=credits";
 
 
@@ -64,32 +70,58 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieAddButtonListener();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.bottom_nav_menu,menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        TxtFileReader txtFileReader=new TxtFileReader();
+        Intent intent=new Intent(MovieDetailActivity.this,UserMovieTopListActivity.class);
+        intent.putStringArrayListExtra("id",txtFileReader.read());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity( intent);
+
+        return  super.onOptionsItemSelected(item);
+    }
+
     private void movieAddButtonListener() {
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FileOutputStream fileOutputStream=null;
-
-                try {
-
-                    fileOutputStream=v.getContext().openFileOutput("movie_id.txt", Context.MODE_APPEND);
-                    byte[]id=movie.getId().toString().getBytes();
-                    fileOutputStream.write(" ".getBytes());
-                    fileOutputStream.write(id);
-                    Log.d(TAG, "onClick: "+movie.getId().toString());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }finally {
-                    try {
-                        if (fileOutputStream!=null){
-                            fileOutputStream.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                TxtFileReader txtFileReader=new TxtFileReader();
+                boolean status=true;
+                for (String idController:txtFileReader.read()) {
+                    if (String.valueOf(movie.getId()).equals(idController)){
+                        status=false;
                     }
                 }
+                if (status) {
+                    FileOutputStream fileOutputStream = null;
+                    try {
+                        fileOutputStream = MovieDetailActivity.this.openFileOutput(MOVIE_ID_FILE_NAME, Context.MODE_APPEND);
+                        byte[] id = movie.getId().toString().getBytes();
+                        fileOutputStream.write(" ".getBytes());
+                        fileOutputStream.write(id);
+                        Log.d(TAG, "onClick: " + movie.getId().toString());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (fileOutputStream != null) {
+                                fileOutputStream.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                else Toast.makeText(MovieDetailActivity.this, "THIS FILM HAS ALREADY BEEN RECORDED", Toast.LENGTH_SHORT).show();
             }
         });
     }

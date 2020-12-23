@@ -114,22 +114,14 @@ public class MovieInitializeDownLoader {
                     Log.d(TAG, "onResponse: "+ categoryUpComing);
                     Log.d(TAG, "onResponse: "+ categoryNowPlaying);
 
-
-
-
-                         RecyclerViewParentAdapter recyclerViewParentAdapter=new RecyclerViewParentAdapter(context
+                    RecyclerViewParentAdapter recyclerViewParentAdapter=new RecyclerViewParentAdapter(context
                                  ,categoryArrayList,recyclerView,layoutManager
                                  ,popularMovieArrayList,topRateMovieArrayList,upComingArrayList,nowPlayingArrayList
                                  , categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing,0);
 
                              recyclerView.setAdapter(recyclerViewParentAdapter);
                              recyclerView.setLayoutManager(layoutManager);
-                             if (categoryArrayList.size()==4){
-                             Log.d(TAG, "onResponse: DENEMEE"+categoryArrayList);
-                             Log.d(TAG, "onResponse:0 indeks:"+categoryArrayList.get(0));
-                             Log.d(TAG, "onResponse: 1 indeks:"+categoryArrayList.get(1));
-                             Log.d(TAG, "onResponse: 2 indeks:"+categoryArrayList.get(2));
-                             Log.d(TAG, "onResponse: 3 indeks:"+categoryArrayList.get(3));}
+
 
                     }
                     catch (JSONException e) {

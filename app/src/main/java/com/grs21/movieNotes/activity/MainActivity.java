@@ -6,7 +6,6 @@
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
 
-    import android.content.Context;
     import android.content.Intent;
     import android.os.Bundle;
     import android.util.Log;
@@ -26,23 +25,14 @@
     import com.grs21.movieNotes.model.Movie;
     import com.grs21.movieNotes.util.MovieInitializeDownLoader;
     import com.grs21.movieNotes.util.HttpConnector;
+    import com.grs21.movieNotes.util.TxtFileReader;
     import com.smarteist.autoimageslider.SliderAnimations;
     import com.smarteist.autoimageslider.SliderView;
-
     import org.json.JSONArray;
     import org.json.JSONException;
     import org.json.JSONObject;
-
-
-    import java.io.BufferedReader;
-    import java.io.File;
-    import java.io.FileInputStream;
-    import java.io.FileNotFoundException;
-    import java.io.FileOutputStream;
-    import java.io.IOException;
-    import java.io.InputStreamReader;
     import java.util.ArrayList;
-    import java.util.Scanner;
+
 
 
     public class MainActivity extends AppCompatActivity {
@@ -55,20 +45,12 @@
         public static final String JSON_NOW_PLAYING_LIST_URL="https://api.themoviedb.org/3/movie/now_playing?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
         private ArrayList<Movie> sliderViewImageArrayList=new ArrayList<>();
         private SliderView sliderView;
-
-        private LinearLayoutManager linearLayoutManagerParentRecyclerView;
-        public static final String FILE_ROOT="/data/user/0/com.grs21.movienotes/files/movie_id.txt";
-
         private RecyclerView recyclerViewParent;
-        private RecyclerView recyclerViewChild;
         private ArrayList<Movie> popular =new ArrayList<>();
         private ArrayList<Movie> topRate =new ArrayList<>();
         private ArrayList<Movie> nowPlaying =new ArrayList<>();
         private ArrayList<Movie> upComing =new ArrayList<>();
         private ArrayList<Category> totalCategory=new ArrayList<>();
-
-
-
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +59,7 @@
             initializeComponent();
 
 
-            linearLayoutManagerParentRecyclerView =new LinearLayoutManager(this);
+            LinearLayoutManager linearLayoutManagerParentRecyclerView = new LinearLayoutManager(this);
             linearLayoutManagerParentRecyclerView.setOrientation(LinearLayoutManager.VERTICAL);
 
             MovieInitializeDownLoader movieInitializeDownLoader =new MovieInitializeDownLoader(MainActivity.this,recyclerViewParent
@@ -99,36 +81,11 @@
         }
         @Override
         public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-            ArrayList<String> idArrayList=new ArrayList<>();
-            readToFile(idArrayList);
+            TxtFileReader txtFileReader=new TxtFileReader();
             Intent intent=new Intent(MainActivity.this,UserMovieTopListActivity.class);
-            intent.putStringArrayListExtra("id",idArrayList);
-
+            intent.putStringArrayListExtra("id",txtFileReader.read());
             startActivity( intent);
-            Log.d(TAG, "onOptionsItemSelected: "+idArrayList.toString());
             return super.onOptionsItemSelected(item);
-        }
-
-        private ArrayList<String> readToFile(ArrayList<String> arrayList) {
-
-            File file=new File(FILE_ROOT);
-            Scanner scanner = null;
-            try {
-              scanner=new Scanner(file);
-                while (scanner.hasNext()){
-                    scanner.useDelimiter(" ");
-                    arrayList.add(scanner.next());
-                }
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }finally {
-                if (scanner!=null){
-                scanner.close();
-                    }
-            }
-              return arrayList;
         }
 
 
@@ -177,6 +134,5 @@
         public void initializeComponent(){
             sliderView=findViewById(R.id.imageSlider);
             recyclerViewParent=findViewById(R.id.recyclerViewParent);
-            recyclerViewChild =findViewById(R.id.recyclerChild);
         }
     }

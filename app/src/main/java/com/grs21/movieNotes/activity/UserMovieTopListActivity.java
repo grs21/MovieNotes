@@ -1,5 +1,6 @@
 package com.grs21.movieNotes.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +10,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +49,8 @@ public class UserMovieTopListActivity extends AppCompatActivity {
         Intent intent=getIntent();
         ArrayList<String>userTopMovieList= intent.getStringArrayListExtra("id");
 
+
+
         MovieDownLoader movieDownLoader=new MovieDownLoader();
         movieDownLoader.execute(userTopMovieList);
 
@@ -58,49 +63,51 @@ public class UserMovieTopListActivity extends AppCompatActivity {
             ArrayList<Movie> movieArrayList=new ArrayList<>();
             String movieId = null;
 
-            for (int i = 0; i < arrayLists.length; i++) {
+            for (int i = 0; i < arrayLists[0].size(); i++) {
+                movieId = arrayLists[0].get(i);
 
-                movieId=arrayLists[0].get(i);
                 Log.d(TAG, "doInBackground: "+movieId);
-            }
-            @SuppressLint("DefaultLocale")
-            JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(
-                    Request.Method.GET
-                    , String.format(BASE_URL, movieId)
-                    , null
-                    , new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                Movie movie=new Movie();
-                    try {
 
-                      movie.setId(response.getInt("id"));
-                      movie.setMovieName(response.getString("title"));
-                      movie.setReleaseDate(response.getString("release_date"));
-                      movie.setRank(response.getString("vote_average"));
-                      movie.setMoviePosterImageURL(response.getString("poster_path"));
-                      movieArrayList.add(movie);
-                        Log.d(TAG, "onResponse:TOP_MOVIE_ARRAY_LIST:"+movieArrayList.toString());
-                        RecyclerViewUserTopMovieListAdapter topListAdapter=new RecyclerViewUserTopMovieListAdapter(
-                                UserMovieTopListActivity.this,movieArrayList);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(UserMovieTopListActivity.this);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setAdapter(topListAdapter);
+                @SuppressLint("DefaultLocale")
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                        Request.Method.GET
+                        , String.format(BASE_URL, movieId)
+                        , null
+                        , new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Movie movie = new Movie();
+                        try {
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                            movie.setId(response.getInt("id"));
+                            movie.setMovieName(response.getString("title"));
+                            movie.setReleaseDate(response.getString("release_date"));
+                            movie.setRank(response.getString("vote_average"));
+                            movie.setMoviePosterImageURL(response.getString("poster_path"));
+                            movieArrayList.add(movie);
+                            if (movieArrayList.size() == arrayLists[0].size()) {
+                                Log.d(TAG, "onResponse: in if");
+                                RecyclerViewUserTopMovieListAdapter topListAdapter = new RecyclerViewUserTopMovieListAdapter(
+                                        UserMovieTopListActivity.this, movieArrayList);
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(UserMovieTopListActivity.this);
+                                recyclerView.setLayoutManager(layoutManager);
+                                recyclerView.setAdapter(topListAdapter);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
+                        , new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Log.d(TAG, "onErrorResponse: "+error);
+                    }
                 }
-                , new Response.ErrorListener() {
-                 @Override
-                 public void onErrorResponse(VolleyError error) {
-
-                 }
-                 }
-            );
-            HttpConnector.getInstance(UserMovieTopListActivity.this).addRequestQue(jsonObjectRequest);
-
+                );
+                HttpConnector.getInstance(UserMovieTopListActivity.this).addRequestQue(jsonObjectRequest);
+            }
             return null;
         }
     }

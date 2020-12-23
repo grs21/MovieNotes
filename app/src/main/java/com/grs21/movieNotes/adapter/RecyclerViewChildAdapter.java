@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.activity.MovieDetailActivity;
 import com.grs21.movieNotes.model.Movie;
+import com.grs21.movieNotes.util.TxtFileReader;
 import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
@@ -79,27 +81,44 @@ public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerView
             @Override
             public void onClick(View v) {
                 //Todo:write to local file
-                FileOutputStream fileOutputStream=null;
+                boolean status=true;
+                TxtFileReader txtFileReader=new TxtFileReader();
+                for (String idController:txtFileReader.read()) {
 
-                try {
+                    if (String.valueOf(movie.getId()).equals(idController)){
 
-                     fileOutputStream=v.getContext().openFileOutput("movie_id.txt",Context.MODE_APPEND);
+                        status=false;
+                    }
 
-                     fileOutputStream.write(" ".getBytes());
-                     fileOutputStream.write(movie.getId().toString().getBytes());
-                     Log.d(TAG, "onClick: "+movie.getId());
+                }
+                    if (status){
+                        FileOutputStream fileOutputStream=null;
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }finally {
-                    if (fileOutputStream!=null) {
                         try {
-                            fileOutputStream.close();
+
+                            fileOutputStream=v.getContext().openFileOutput("movie_id.txt",Context.MODE_APPEND);
+
+                            fileOutputStream.write(" ".getBytes());
+                            fileOutputStream.write(movie.getId().toString().getBytes());
+                            Log.d(TAG, "onClick: "+movie.getId());
+
                         } catch (IOException e) {
                             e.printStackTrace();
+                        }finally {
+                            if (fileOutputStream!=null) {
+                                try {
+                                    fileOutputStream.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-                    }
-                }
+
+                    }else Toast.makeText(context, "THIS FILM HAS ALREADY BEEN RECORDED", Toast.LENGTH_SHORT).show();
+
+
+
+
             }
         });
 
