@@ -3,14 +3,17 @@
 
     import androidx.annotation.NonNull;
     import androidx.appcompat.app.AppCompatActivity;
+    import androidx.appcompat.widget.SearchView;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
 
+    import android.app.SearchManager;
     import android.content.Intent;
     import android.os.Bundle;
     import android.util.Log;
     import android.view.Menu;
     import android.view.MenuItem;
+    import android.view.View;
 
 
     import com.android.volley.Request;
@@ -20,6 +23,7 @@
 
     import com.android.volley.toolbox.JsonObjectRequest;
     import com.grs21.movieNotes.R;
+    import com.grs21.movieNotes.adapter.RecyclerViewSearchViewAdapter;
     import com.grs21.movieNotes.adapter.SliderImageAdapter;
     import com.grs21.movieNotes.model.Category;
     import com.grs21.movieNotes.model.Movie;
@@ -33,7 +37,7 @@
     import org.json.JSONObject;
     import java.util.ArrayList;
 
-    public class MainActivity extends AppCompatActivity {
+    public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
         private Movie movie;
         private static final String TAG = "MainActivity";
@@ -41,19 +45,22 @@
         public static final String JSON_TOP_RATE_LIST_URl="https://api.themoviedb.org/3/movie/top_rated?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
         public static final String JSON_UP_COMING_LIST_URL="https://api.themoviedb.org/3/movie/upcoming?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
         public static final String JSON_NOW_PLAYING_LIST_URL="https://api.themoviedb.org/3/movie/now_playing?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
+        public static final String JSON_SEARCH_MOVIE_URL="https://api.themoviedb.org/3/search/keyword?api_key=e502c799007bd295e5f591cb3ae8fb46&query=%s&page=1";
         private ArrayList<Movie> sliderViewImageArrayList=new ArrayList<>();
         private static final String ON_CLICKED_TOP_LIST_BUTTON_MOVIE_ID_INTENT_KEY ="id";
 
-        private static final String JSON_OBJECT_KEYWORD_RESULT ="result";
+        private static final String JSON_OBJECT_KEYWORD_RESULT ="results";
         private static final String JSON_OBJECT_KEYWORD_ID="id";
         private static final String JSON_OBJECT_KEYWORD_MOVIE_TITLE="title";
         private static final String JSON_OBJECT_KEYWORD_POSTER_PATH="poster_path";
         private static final String JSON_OBJECT_KEYWORD_VOTE_AVERAGE="vote_average";
         private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
         private static final String JSON_OBJECT_KEYWORD_BACKDROP_PATH="backdrop_path";
+        private static final String JSON_OBJECT_KEYWORD_NAME="name";
 
         private SliderView sliderView;
         private RecyclerView recyclerViewParent;
+        private RecyclerView searchRecyclerView;
         private ArrayList<Movie> popular =new ArrayList<>();
         private ArrayList<Movie> topRate =new ArrayList<>();
         private ArrayList<Movie> nowPlaying =new ArrayList<>();
@@ -74,18 +81,36 @@
             movieInitializeDownLoader.download(JSON_NOW_PLAYING_LIST_URL,getString(R.string.Up_coming));
             movieInitializeDownLoader.download(JSON_UP_COMING_LIST_URL,getString(R.string.now_playing));
             sliderImageDownload(JSON_UP_COMING_LIST_URL);
+
+            if (getIntent().getBooleanExtra("LOGOUT", false))
+            {
+                finish();
+            }
         }
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
             getMenuInflater().inflate(R.menu.bottom_nav_menu,menu);
+
+            MenuItem searchItem = menu.findItem(R.id.action_search);
+            SearchView searchView = (SearchView) searchItem.getActionView();
+            searchView.setOnQueryTextListener(this);
             return true;
         }
         @Override
         public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-            TxtFileReader txtFileReader=new TxtFileReader();
-            Intent intent=new Intent(MainActivity.this,UserMovieTopListActivity.class);
-            intent.putStringArrayListExtra(ON_CLICKED_TOP_LIST_BUTTON_MOVIE_ID_INTENT_KEY,txtFileReader.read());
-            startActivity( intent);
+
+            switch (item.getItemId()){
+                case R.id.navigation_home:
+                    TxtFileReader txtFileReader=new TxtFileReader();
+                    Intent intent=new Intent(MainActivity.this,UserMovieTopListActivity.class);
+                    intent.putStringArrayListExtra(ON_CLICKED_TOP_LIST_BUTTON_MOVIE_ID_INTENT_KEY,txtFileReader.read());
+                    startActivity( intent);
+
+                    return true;
+                case R.id.action_search:
+
+                    return true;
+            }
             return super.onOptionsItemSelected(item);
         }
         public void sliderImageDownload(String imageDataURL){
@@ -108,10 +133,12 @@
 
                            sliderViewImageArrayList.add(movie);
                         }
+                        Log.d(TAG, "onResponse: "+sliderViewImageArrayList);
                         SliderImageAdapter sliderImageAdapter=new SliderImageAdapter(sliderViewImageArrayList,MainActivity.this);
                         sliderView.setSliderAdapter(sliderImageAdapter);
                         sliderView.startAutoCycle();
                         sliderView.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
+                       
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -130,5 +157,58 @@
         public void initializeComponent(){
             sliderView=findViewById(R.id.imageSlider);
             recyclerViewParent=findViewById(R.id.recyclerViewParent);
+            searchRecyclerView=findViewById(R.id.searchRecyclerView);
+
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            searchRecyclerView.setVisibility(View.INVISIBLE);
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+                ArrayList<Movie> searchMovies=new ArrayList<>();
+            JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET
+                    ,String.format(JSON_SEARCH_MOVIE_URL,newText)
+                    , null
+                    , new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        JSONArray jsonArray=response.getJSONArray(JSON_OBJECT_KEYWORD_RESULT);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            movie=new Movie();
+                            movie.setId(jsonArray.getJSONObject(i).getInt(JSON_OBJECT_KEYWORD_ID));
+                            movie.setMovieName(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_NAME));
+                            searchMovies.add(movie);
+
+                            if (!newText.isEmpty()){
+                            LinearLayoutManager layoutManager=new LinearLayoutManager(MainActivity.this);
+                            RecyclerViewSearchViewAdapter searchViewAdapter=new RecyclerViewSearchViewAdapter(searchMovies);
+                            searchViewAdapter.notifyDataSetChanged();
+                            searchRecyclerView.setLayoutManager(layoutManager);
+                            searchRecyclerView.setAdapter(searchViewAdapter);
+                            searchRecyclerView.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                }
+                     , new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d(TAG, "onErrorResponse: "+error);
+                }
+            });
+            HttpConnector.getInstance(MainActivity.this).addRequestQue(jsonObjectRequest);
+            if (newText.isEmpty()) {
+                searchMovies.clear();
+                searchRecyclerView.setVisibility(View.INVISIBLE);
+            }
+            return false;
         }
     }

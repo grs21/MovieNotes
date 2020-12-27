@@ -53,7 +53,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private final String baseURL="https://api.themoviedb.org/3/movie/%d?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&append_to_response=credits";
     private Intent intent;
     private static final String TAG = "MovieDetailActivity";
-
+    private static final String ON_CLICKED_TOP_LIST_BUTTON_MOVIE_ID_INTENT_KEY ="id";
     private static final String JSON_OBJECT_KEYWORD_CREDITS ="credits";
     private static final String JSON_OBJECT_KEYWORD_CAST ="cast";
     private static final String JSON_OBJECT_KEYWORD_GENRES="genres";
@@ -83,7 +83,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         TxtFileReader txtFileReader=new TxtFileReader();
         Intent intent=new Intent(MovieDetailActivity.this,UserMovieTopListActivity.class);
-        intent.putStringArrayListExtra(ON_CLICKED_MOVIE_ID_INTENT_KEY,txtFileReader.read());
+        intent.putStringArrayListExtra(ON_CLICKED_TOP_LIST_BUTTON_MOVIE_ID_INTENT_KEY,txtFileReader.read());
         startActivity( intent);
         return  super.onOptionsItemSelected(item);
     }

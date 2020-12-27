@@ -1,6 +1,10 @@
 package com.grs21.movieNotes.util;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.provider.Settings;
 import android.util.Log;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +12,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.grs21.movieNotes.activity.MainActivity;
 import com.grs21.movieNotes.adapter.RecyclerViewParentAdapter;
 import com.grs21.movieNotes.model.Category;
 import com.grs21.movieNotes.model.Movie;
@@ -23,7 +28,7 @@ public class MovieDownloaderForListener {
     private static final String JSON_OBJECT_KEYWORD_POSTER_PATH="poster_path";
     private static final String JSON_OBJECT_KEYWORD_VOTE_AVERAGE="vote_average";
     private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
-    private static final String JSON_OBJECT_KEYWORD_RESULT ="result";
+    private static final String JSON_OBJECT_KEYWORD_RESULT ="results";
     private static final String JSON_OBJECT_KEYWORD_BACKDROP_PATH="backdrop_path";
 
     private static  String TAG = "MovieDownloaderForListener";
@@ -36,26 +41,18 @@ public class MovieDownloaderForListener {
     ArrayList<Movie> topRateMovieArrayList;
     ArrayList<Movie> upComingArrayList;
     ArrayList<Movie> nowPlayingArrayList;
-
     private Category categoryPopular;
     private Category categoryTopRate;
     private Category categoryNowPlaying;
     private Category categoryUpComing;
-    private RecyclerView recyclerViewChild;
-    private int itemLastLocation;
-    RecyclerViewParentAdapter recyclerViewParentAdapter;
-
-
 
     public MovieDownloaderForListener(Context context, ArrayList<Category> categoryArrayList
             , LinearLayoutManager layoutManager, RecyclerView recyclerView,  ArrayList<Movie> popularMovieArrayList
             , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList, ArrayList<Movie> nowPlayingMovieArrayList
-            ,Category categoryPopular,Category categoryTopRate,Category categoryNowPlaying,Category categoryUpComing
-            ,RecyclerView recyclerViewChild
-    ,RecyclerViewParentAdapter recyclerViewParentAdapter)
+            ,Category categoryPopular,Category categoryTopRate,Category categoryNowPlaying,Category categoryUpComing)
     {
-        this.recyclerViewParentAdapter=recyclerViewParentAdapter;
-        this.recyclerViewChild=recyclerViewChild;
+
+
         this.categoryPopular=categoryPopular;
         this.categoryTopRate=categoryTopRate;
         this.categoryNowPlaying=categoryNowPlaying;
@@ -69,8 +66,7 @@ public class MovieDownloaderForListener {
         this.upComingArrayList=upComingMovieArrayList;
         this.nowPlayingArrayList=nowPlayingMovieArrayList;
     }
-
-    public void download(String url, String titleCategory,int position) {
+    public void download(String url, String titleCategory) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET
                 , url
                 , null
@@ -89,32 +85,41 @@ public class MovieDownloaderForListener {
                         movie.setMovieBackdropPathImageUrl(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_BACKDROP_PATH));
                         movieArrayList.add(movie);
                     }
+                    categoryArrayList.clear();
                     switch (titleCategory){
                         case "Popular":
                             popularMovieArrayList.addAll(movieArrayList);
                             categoryPopular.setCategoryTitle(titleCategory);
                             categoryPopular.setMovieArrayList(popularMovieArrayList);
+
                             break;
                         case "Top Rate":
                             topRateMovieArrayList.addAll(movieArrayList);
                             categoryTopRate.setCategoryTitle(titleCategory);
                             categoryTopRate.setMovieArrayList(topRateMovieArrayList);
+
                             break;
                         case "Up Coming":
                             upComingArrayList.addAll(movieArrayList);
                             categoryUpComing.setCategoryTitle(titleCategory);
                             categoryUpComing.setMovieArrayList(upComingArrayList);
+
                             break;
                         case "Now Playing":
                             nowPlayingArrayList.addAll(movieArrayList);
                             categoryNowPlaying.setCategoryTitle(titleCategory);
                             categoryNowPlaying.setMovieArrayList(nowPlayingArrayList);
+
                             break;
                     }
+                    categoryArrayList.add(categoryPopular);
+                    categoryArrayList.add(categoryTopRate);
+                    categoryArrayList.add(categoryUpComing);
+                    categoryArrayList.add(categoryNowPlaying);
                     RecyclerViewParentAdapter recyclerViewParentAdapter=new RecyclerViewParentAdapter(context
                                         ,categoryArrayList,recyclerView,layoutManager,popularMovieArrayList,topRateMovieArrayList
                                         ,upComingArrayList,nowPlayingArrayList
-                                        ,categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing,itemLastLocation);
+                                        ,categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing);
                                         recyclerViewParentAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -124,6 +129,18 @@ public class MovieDownloaderForListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "onErrorResponse: " + error);
+                AlertDialog.Builder builder=new AlertDialog.Builder(context);
+                builder.setTitle("Connection Error");
+                builder.setPositiveButton("okey", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("LOGOUT", true);
+                        context.startActivity(intent);
+                    }
+                });
+                builder.show();
             }
         });
         HttpConnector.getInstance(context).addRequestQue(jsonObjectRequest);

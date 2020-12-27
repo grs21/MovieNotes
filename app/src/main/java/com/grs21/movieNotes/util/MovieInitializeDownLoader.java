@@ -1,6 +1,9 @@
 package com.grs21.movieNotes.util;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +12,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.grs21.movieNotes.activity.MainActivity;
 import com.grs21.movieNotes.adapter.RecyclerViewParentAdapter;
 import com.grs21.movieNotes.model.Category;
 import com.grs21.movieNotes.model.Movie;
@@ -24,11 +28,10 @@ public class MovieInitializeDownLoader {
     private static final String JSON_OBJECT_KEYWORD_POSTER_PATH="poster_path";
     private static final String JSON_OBJECT_KEYWORD_VOTE_AVERAGE="vote_average";
     private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
-    private static final String JSON_OBJECT_KEYWORD_RESULT ="result";
+    private static final String JSON_OBJECT_KEYWORD_RESULT ="results";
     private static final String JSON_OBJECT_KEYWORD_BACKDROP_PATH="backdrop_path";
 
     private static final String TAG = "DownLoader";
-    private Movie movie;
     private ArrayList<Movie> movieArrayList;
     private ArrayList<Movie>movies=new ArrayList<>();
     private Context context;
@@ -70,7 +73,7 @@ public class MovieInitializeDownLoader {
                     JSONArray jsonArray = response.getJSONArray(JSON_OBJECT_KEYWORD_RESULT);
                         movieArrayList=new ArrayList<>();
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        movie = new Movie();
+                        Movie movie = new Movie();
                         movie.setId(jsonArray.getJSONObject(i).getInt(JSON_OBJECT_KEYWORD_ID));
                         movie.setRank(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_VOTE_AVERAGE));
                         movie.setMovieName(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_MOVIE_TITLE));
@@ -110,8 +113,8 @@ public class MovieInitializeDownLoader {
                     RecyclerViewParentAdapter recyclerViewParentAdapter=new RecyclerViewParentAdapter(context
                                  ,categoryArrayList,recyclerView,layoutManager
                                  ,popularMovieArrayList,topRateMovieArrayList,upComingArrayList,nowPlayingArrayList
-                                 , categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing,0);
-
+                                 , categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing);
+                             recyclerView.setHasFixedSize(true);
                              recyclerView.setAdapter(recyclerViewParentAdapter);
                              recyclerView.setLayoutManager(layoutManager);
                 }
@@ -124,8 +127,18 @@ public class MovieInitializeDownLoader {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "onErrorResponse: " + error);
-                recyclerView.setAdapter(recyclerViewParentAdapter);
-                recyclerView.setLayoutManager(layoutManager);
+                AlertDialog.Builder builder=new AlertDialog.Builder(context);
+                builder.setTitle("Connection Error");
+                builder.setPositiveButton("okey", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("LOGOUT", true);
+                        context.startActivity(intent);
+                    }
+                });
+                builder.show();
             }
         });
         HttpConnector.getInstance(context).addRequestQue(jsonArrayRequest);

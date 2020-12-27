@@ -37,15 +37,13 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
     private Category categoryTopRate;
     private Category categoryNowPlaying;
     private Category categoryUpComing;
-    int lastItemLocation;
     private RecyclerViewParentAdapter recyclerViewParentAdapter=this;
 
     public  RecyclerViewParentAdapter(Context context, ArrayList<Category> categoryList,RecyclerView recyclerView,LinearLayoutManager layoutManager,ArrayList<Movie> popularMovieArrayList
             , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList, ArrayList<Movie> nowPlayingMovieArrayList
-    ,Category categoryPopular,Category categoryTopRate,Category categoryNowPlaying,Category categoryUpComing
-    ,int lastItemLocation)
+    ,Category categoryPopular,Category categoryTopRate,Category categoryNowPlaying,Category categoryUpComing)
     {
-        this.lastItemLocation=lastItemLocation;
+
         this.categoryPopular=categoryPopular;
         this.categoryTopRate=categoryTopRate;
         this.categoryNowPlaying=categoryNowPlaying;
@@ -79,24 +77,23 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
             public void onLoadMore(int currentPage,int lastItemLocation) {
                 MovieDownloaderForListener movieDownloaderForListener=new MovieDownloaderForListener(context,categoryList,layoutManager
                         ,recyclerView,popularMovieArrayList,topRateMovieArrayList,upComingArrayList,nowPlayingArrayList
-                        , categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing,holder.recyclerViewChild
-                , recyclerViewParentAdapter);
+                        , categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing);
                 switch (position){
                     case 0:
                         movieDownloaderForListener.download(String.format(JSON_POPULAR_LIST_URL,currentPage)
-                                ,"Popular",position);
+                                ,"Popular");
                         break;
                     case 1:
                         movieDownloaderForListener.download(String.format(JSON_TOP_RATE_LIST_URl,currentPage)
-                                ,"Top Rate",position);
+                                ,"Top Rate");
                         break;
                     case 2:
                         movieDownloaderForListener.download(String.format(JSON_UP_COMING_LIST_URL,currentPage)
-                                ,"Up Coming",position);
+                                ,"Up Coming");
                         break;
                     case 3:
                         movieDownloaderForListener.download(String.format(JSON_NOW_PLAYING_LIST_URL,currentPage)
-                                ,"Now Playing",position);
+                                ,"Now Playing");
                         break;
                 }
             }

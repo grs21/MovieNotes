@@ -42,8 +42,8 @@ public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerView
     @NonNull
     @Override
     public ViewHolderBoxAdapter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater=LayoutInflater.from(parent.getContext());
-        View view=layoutInflater.inflate(R.layout.recycler_movie_row_item,parent,false);
+        View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_movie_row_item
+                ,parent,false);
         return new ViewHolderBoxAdapter(view);
     }
     //Todo:What do when load

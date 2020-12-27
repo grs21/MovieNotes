@@ -21,7 +21,8 @@ public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<Recycle
     @NonNull
     @Override
     public ActorVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_recyclerview_actor_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_recyclerview_actor_item
+                ,parent,false);
         return new ActorVH(view);
     }
     @Override
