@@ -98,12 +98,12 @@ public class RecyclerViewUserTopMovieListAdapter extends RecyclerView.Adapter<Re
         ImageButton deleteMovieImageButton;
         public TopMovieListVH(@NonNull View itemView) {
             super(itemView);
-            deleteMovieImageButton =itemView.findViewById(R.id.detailAddMovieButton);
+            deleteMovieImageButton =itemView.findViewById(R.id.detailDeleteMovieButton);
 
             imageView=itemView.findViewById(R.id.topListImage);
 
             rankTextView=itemView.findViewById(R.id.topListEditTextRank);
-            movieNameTextView =itemView.findViewById(R.id.topListMovieName);
+            movieNameTextView =itemView.findViewById(R.id.topListNameTextView);
             movieReleaseDateTextView =itemView.findViewById(R.id.topListReleaseDate);
 
         }

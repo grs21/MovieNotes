@@ -1,4 +1,4 @@
-package com.grs21.movieNotes.util;
+package com.grs21.movieNotes.util.downloader;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -16,6 +16,8 @@ import com.grs21.movieNotes.activity.MainActivity;
 import com.grs21.movieNotes.adapter.RecyclerViewParentAdapter;
 import com.grs21.movieNotes.model.Category;
 import com.grs21.movieNotes.model.Movie;
+import com.grs21.movieNotes.util.HttpConnector;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 public class MovieDownloaderForListener {
 
     private static final String JSON_OBJECT_KEYWORD_ID="id";
-    private static final String JSON_OBJECT_KEYWORD_MOVIE_TITLE="title";
+    private static final String JSON_OBJECT_KEYWORD_MOVIE_TITLE="original_title";
     private static final String JSON_OBJECT_KEYWORD_POSTER_PATH="poster_path";
     private static final String JSON_OBJECT_KEYWORD_VOTE_AVERAGE="vote_average";
     private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";

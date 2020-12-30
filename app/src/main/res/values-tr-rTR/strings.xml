@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Movie Notes</string>
+    <string name="movie_name" translatable="false">Film Adı</string>
+    <string name="title_home" translatable="false">Listem</string>
+    <string name="genres_title" translatable="false">Tür</string>
+    <string name="popular" translatable="false">Popüler</string>
+    <string name="Top_Rate" translatable="false">En Çok Oylanan</string>
+    <string name="Up_coming" translatable="false">Yakında</string>
+    <string name="now_playing" translatable="false">Yayında</string>
+    <string name="MOVIE_ALREADY_RECORDED" translatable="false">BU FİLM ZATEN EKLİ</string>
+    <string name="search" translatable="false">Film Ara..</string>
+    <string name="send" translatable="false">Gönder</string>
+    <string name="title_notifications" translatable="false">Dikkat</string>
+    <string name="language" translatable="false">tr</string>
+</resources>

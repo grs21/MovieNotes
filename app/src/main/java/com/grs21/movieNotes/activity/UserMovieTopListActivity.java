@@ -2,6 +2,7 @@ package com.grs21.movieNotes.activity;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
@@ -33,14 +34,18 @@ public class UserMovieTopListActivity extends AppCompatActivity {
     private static final String JSON_OBJECT_KEYWORD_POSTER_PATH="poster_path";
     private static final String JSON_OBJECT_KEYWORD_VOTE_AVERAGE="vote_average";
     private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
+    private static final String ON_CLICKED_HOME_BUTTON_INTENT_KEY ="HOME_BUTTON";
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_movie_top_list);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initializeComponent();
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Intent intent=getIntent();
-        ArrayList<String>userTopMovieList= intent.getStringArrayListExtra("id");
+        ArrayList<String>userTopMovieList= intent.getStringArrayListExtra(ON_CLICKED_HOME_BUTTON_INTENT_KEY);
 
 
 
@@ -103,5 +108,6 @@ public class UserMovieTopListActivity extends AppCompatActivity {
 
     private void initializeComponent() {
         recyclerView=findViewById(R.id.recyclerViewMovieList);
+        toolbar=findViewById(R.id.uerTopListActivityToolBar);
     }
 }

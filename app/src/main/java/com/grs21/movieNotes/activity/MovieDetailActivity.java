@@ -2,6 +2,7 @@ package com.grs21.movieNotes.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String ON_CLICKED_MOVIE_ID_INTENT_KEY="id";
-    private static final String ON_CLICKED_MOVIE_IN_MAIN_ACTIVITY_INTENT_KEY ="movie";
+    private static final String ON_CLICKED_ON_THE_MOVIE_INTENT_KEY ="movie";
 
     private ArrayList<Actor> actorArrayList=new ArrayList<>();
     private ImageView movieImage,cardViewBackGround;
@@ -50,40 +51,41 @@ public class MovieDetailActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageButton imageButton;
     private static final String MOVIE_ID_FILE_NAME="movie_id.txt";
-    private final String baseURL="https://api.themoviedb.org/3/movie/%d?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&append_to_response=credits";
+    private final String baseURL="https://api.themoviedb.org/3/movie/%d?api_key=e502c799007bd295e5f591cb3ae8fb46&language=%s&append_to_response=credits";
     private Intent intent;
     private static final String TAG = "MovieDetailActivity";
-    private static final String ON_CLICKED_TOP_LIST_BUTTON_MOVIE_ID_INTENT_KEY ="id";
+    private static final String ON_CLICKED_HOME_BUTTON_INTENT_KEY ="HOME_BUTTON";
     private static final String JSON_OBJECT_KEYWORD_CREDITS ="credits";
     private static final String JSON_OBJECT_KEYWORD_CAST ="cast";
     private static final String JSON_OBJECT_KEYWORD_GENRES="genres";
     private static final String JSON_OBJECT_KEYWORD_NAME="name";
     private static final String JSON_OBJECT_KEYWORD_MOVIE_PROFILE_PATH="profile_path";
     private static final String JSON_OBJECT_KEYWORD_OVERVIEW="overview";
-
+    private  Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initializeComponent();
-        intent=getIntent();
-        movie=(Movie) intent.getSerializableExtra(ON_CLICKED_MOVIE_IN_MAIN_ACTIVITY_INTENT_KEY);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        intent=getIntent();
+        movie=(Movie) intent.getSerializableExtra(ON_CLICKED_ON_THE_MOVIE_INTENT_KEY);
         setComponentValue();
-        detailDownloader(baseURL,movie.getId());
+        actorDownloader(baseURL,movie.getId());
         movieAddButtonListener();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.bottom_nav_menu,menu);
+        getMenuInflater().inflate(R.menu.detail_activity_bar,menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         TxtFileReader txtFileReader=new TxtFileReader();
         Intent intent=new Intent(MovieDetailActivity.this,UserMovieTopListActivity.class);
-        intent.putStringArrayListExtra(ON_CLICKED_TOP_LIST_BUTTON_MOVIE_ID_INTENT_KEY,txtFileReader.read());
+        intent.putStringArrayListExtra(ON_CLICKED_HOME_BUTTON_INTENT_KEY,txtFileReader.read());
         startActivity( intent);
         return  super.onOptionsItemSelected(item);
     }
@@ -127,10 +129,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void detailDownloader(String url,int movieId) {
+    private void actorDownloader(String url, int movieId) {
 
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET
-                , String.format(url,movieId)
+                , String.format(url,movieId,getString(R.string.language))
                 , null
                 , new Response.Listener<JSONObject>() {
             @Override
@@ -167,7 +169,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         HttpConnector.getInstance(MovieDetailActivity.this).addRequestQue(jsonObjectRequest);
     }
     private void setComponentValue() {
-        Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movie.getMovieBackdropPathImageUrl()).into(cardViewBackGround);
+        Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movie.getMovieBackdropPathImageUrl())
+                .into(cardViewBackGround);
         Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movie.getMoviePosterImageURL())
                 .into(movieImage);
         textViewMovieName.setText(movie.getMovieName());
@@ -179,7 +182,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         movieImage=findViewById(R.id.topListImage);
 
-        textViewMovieName =findViewById(R.id.topListMovieName);
+        textViewMovieName =findViewById(R.id.topListNameTextView);
         textViewReleaseDate =findViewById(R.id.topListReleaseDate);
         textViewRank =findViewById(R.id.topListEditTextRank);
         textViewGenres =findViewById(R.id.textViewGenres);
@@ -188,6 +191,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         recyclerView=findViewById(R.id.recyclerViewActor);
 
         imageButton=findViewById(R.id. detailAddMovieButton);
+
+        toolbar=findViewById(R.id.detailActivityToolBar);
     }
 
 

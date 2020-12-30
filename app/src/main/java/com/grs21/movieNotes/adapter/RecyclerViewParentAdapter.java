@@ -1,7 +1,6 @@
 package com.grs21.movieNotes.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.model.Category;
 import com.grs21.movieNotes.model.Movie;
-import com.grs21.movieNotes.util.MovieDownloaderForListener;
+import com.grs21.movieNotes.util.downloader.MovieDownloaderForListener;
 import com.grs21.movieNotes.util.RecyclerOnScrollListener;
 
 import java.util.ArrayList;

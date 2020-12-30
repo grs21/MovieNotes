@@ -9,7 +9,6 @@ public class Movie implements Serializable {
     private  Integer id;
     private String rank;
     private String movieName;
-    private String movieDirector;
     private String releaseDate;
     private String movieBackdropPathImageUrl;
     private ArrayList<String> movieGenres=new ArrayList<>();
@@ -75,6 +74,6 @@ public class Movie implements Serializable {
 
     @Override
     public String toString() {
-        return  movieName +" "+ moviesSaveArrayList +'\'';
+        return  movieName ;
     }
 }

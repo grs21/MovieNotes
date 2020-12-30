@@ -9,9 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#88888888</color>
     <color name="darkBlue">#0d253f</color>
+    <color name="darkBlueLight">#E8142940</color>
     <color name="lightBlue"> #01b4e4</color>
     <color name="lightGreen">#90cea1</color>
     <color name="newBlack">#0F171E</color>
+    <color name="toll_bar">#DD0F171E</color>
 
 
 </resources>

@@ -3,16 +3,13 @@ package com.grs21.movieNotes.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.grs21.movieNotes.R;
@@ -20,10 +17,7 @@ import com.grs21.movieNotes.activity.MovieDetailActivity;
 import com.grs21.movieNotes.model.Movie;
 import com.grs21.movieNotes.util.TxtFileReader;
 import com.squareup.picasso.Picasso;
-
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -92,6 +86,9 @@ public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerView
                                 }
                             }
                         }
+                        Toast toast = Toast.makeText(context, R.string.MOVIE_ALREADY_RECORDED, Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER,0,0);
+                        toast.show();
                     }else  {
                         Toast toast = Toast.makeText(context, R.string.MOVIE_ALREADY_RECORDED, Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER,0,0);

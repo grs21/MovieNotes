@@ -1,128 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MovieDetailActivity"
     android:background="@color/darkBlue"
-    >
+    tools:context=".activity.MovieDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/detailActivityToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/darkBlue"
+        android:theme="@style/Theme.AppCompat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="50dp"
+            android:paddingEnd="30dp"
+            android:text="@string/app_name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            />
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
 
-        >
+
+        app:layout_constraintTop_toBottomOf="@+id/detailActivityToolBar">
 
         <ImageView
             android:id="@+id/cardViewImageBackGround"
             android:layout_width="match_parent"
-            android:layout_height="349dp"
+            android:layout_height="360dp"
             android:scaleType="fitXY"
 
             />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/topListImage"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.214"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintVertical_bias="0.214" />
+            <ImageButton
+                android:id="@+id/detailAddMovieButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="@color/newBlack"
+                android:scaleType="fitCenter"
+                android:src="@drawable/baseline_bookmark_white_24dp"
+
+                android:layout_toRightOf="@id/topListImage"
+                android:layout_marginTop="10dp"
+               />
+            <TextView
+                android:id="@+id/topListEditTextRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_view"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+
+                android:layout_marginStart="16dp"
+                android:layout_toRightOf="@id/detailAddMovieButton"
+                android:layout_marginTop="10dp"
+                />
+            <TextView
+                android:id="@+id/topListNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MOVIE_NAME"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+
+                android:layout_below="@+id/detailAddMovieButton"
+                android:layout_toRightOf="@id/topListImage"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
                 />
 
             <TextView
                 android:id="@+id/topListReleaseDate"
                 android:layout_width="wrap_content"
-
-
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="32dp"
                 android:text="releaseDate"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/topListMovieName"
-                app:layout_constraintTop_toBottomOf="@+id/topListMovieName" />
+                android:layout_below="@+id/topListNameTextView"
+                android:layout_toRightOf="@id/topListImage"
+                android:layout_marginStart="5dp"
+                />
 
-            <TextView
-                android:id="@+id/topListMovieName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:layout_marginBottom="244dp"
-                android:text="MOVIE_NAME"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/detailAddMovieButton" />
 
-            <ImageButton
-                android:id="@+id/detailAddMovieButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="9dp"
-                android:layout_marginEnd="13dp"
-                android:layout_marginBottom="272dp"
 
-                android:background="@color/newBlack"
-                android:scaleType="fitCenter"
-                android:src="@drawable/baseline_bookmark_white_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/topListEditTextRank"
-                app:layout_constraintStart_toEndOf="@+id/topListImage"
-                app:layout_constraintTop_toTopOf="@+id/topListImage" />
 
-            <TextView
-                android:id="@+id/topListEditTextRank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:background="@drawable/text_view"
-                android:gravity="center"
 
-                android:textColor="#FFFFFF"
-                app:layout_constraintStart_toEndOf="@+id/detailAddMovieButton"
-                app:layout_constraintTop_toTopOf="@+id/detailAddMovieButton" />
 
             <TextView
                 android:id="@+id/textViewOverView"
-                android:layout_width="331dp"
-                android:layout_height="64dp"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="12dp"
 
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
                 android:text="overview"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/topListImage"
                 android:textColor="@color/white"
+                android:textSize="12sp"
+                android:layout_below="@id/topListImage"
+
                 />
 
             <TextView
                 android:id="@+id/textViewGenres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
                 android:text="GENRES"
                 android:textColor="@color/white"
-                android:layout_marginTop="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewOverView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp"
-                />
+                android:layout_below="@+id/textViewOverView"
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                 />
+
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -131,8 +150,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/darkBlue"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

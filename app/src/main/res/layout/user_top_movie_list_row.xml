@@ -1,69 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
-
     >
 
-            <ImageView
-                android:id="@+id/topListImage"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+    <ImageView
+        android:id="@+id/topListImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
                 />
+    <ImageButton
+        android:id="@+id/detailDeleteMovieButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/newBlack"
+        android:scaleType="fitCenter"
+        android:src="@drawable/baseline_highlight_off_red_500_24dp"
 
-            <TextView
-                android:id="@+id/topListReleaseDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
-                android:text="releaseDate"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/topListMovieName"
-                app:layout_constraintTop_toBottomOf="@+id/topListMovieName" />
+        android:layout_toRightOf="@+id/topListImage"
+        />
+    <TextView
+        android:id="@+id/topListEditTextRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/text_view"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:layout_toRightOf="@+id/detailDeleteMovieButton" />
+    <TextView
+        android:id="@+id/topListNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-            <TextView
-                android:id="@+id/topListMovieName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="108dp"
-                android:text="MOVIE_NAME"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/detailAddMovieButton" />
-            <ImageButton
-                android:id="@+id/detailAddMovieButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/newBlack"
-                android:scaleType="fitCenter"
-                android:src="@drawable/baseline_highlight_off_red_500_24dp"
-                app:layout_constraintStart_toEndOf="@+id/topListImage"
-                app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:id="@+id/topListEditTextRank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="13dp"
-                android:background="@drawable/text_view"
-                android:gravity="center"
-                android:textColor="#FFFFFF"
-                app:layout_constraintStart_toEndOf="@+id/detailAddMovieButton"
-                app:layout_constraintTop_toTopOf="@+id/detailAddMovieButton" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="MOVIE_NAME"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+
+        android:layout_below="@id/detailDeleteMovieButton"
+        android:layout_toRightOf="@+id/topListImage"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="5dp"
+        />
+    <TextView
+        android:id="@+id/topListReleaseDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:text="releaseDate"
+
+        android:layout_toRightOf="@+id/topListImage"
+        android:layout_below="@+id/topListNameTextView"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+
+         />
+</RelativeLayout>
