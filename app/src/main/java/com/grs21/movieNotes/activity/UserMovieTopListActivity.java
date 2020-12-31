@@ -30,11 +30,12 @@ public class UserMovieTopListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private static final String BASE_URL="https://api.themoviedb.org/3/movie/%s?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US";
     private static final String JSON_OBJECT_KEYWORD_ID="id";
-    private static final String JSON_OBJECT_KEYWORD_MOVIE_TITLE="title";
+    private static final String JSON_OBJECT_KEYWORD_MOVIE_TITLE="original_title";
     private static final String JSON_OBJECT_KEYWORD_POSTER_PATH="poster_path";
     private static final String JSON_OBJECT_KEYWORD_VOTE_AVERAGE="vote_average";
     private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
     private static final String ON_CLICKED_HOME_BUTTON_INTENT_KEY ="HOME_BUTTON";
+    private static final String JSON_OBJECT_KEYWORD_BACKDROP_PATH="backdrop_path";
     private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class UserMovieTopListActivity extends AppCompatActivity {
                             movie.setReleaseDate(response.getString(JSON_OBJECT_KEYWORD_RELEASE_DATE));
                             movie.setRank(response.getString(JSON_OBJECT_KEYWORD_VOTE_AVERAGE));
                             movie.setMoviePosterImageURL(response.getString(JSON_OBJECT_KEYWORD_POSTER_PATH));
+                            movie.setMovieBackdropPathImageUrl(response.getString(JSON_OBJECT_KEYWORD_BACKDROP_PATH));
                             movieArrayList.add(movie);
                             if (movieArrayList.size() == arrayLists[0].size()) {
                                 RecyclerViewUserTopMovieListAdapter topListAdapter = new RecyclerViewUserTopMovieListAdapter(

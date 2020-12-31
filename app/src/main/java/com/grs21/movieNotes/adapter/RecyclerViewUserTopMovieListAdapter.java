@@ -2,6 +2,7 @@ package com.grs21.movieNotes.adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.grs21.movieNotes.R;
+import com.grs21.movieNotes.activity.MovieDetailActivity;
 import com.grs21.movieNotes.model.Movie;
 import com.grs21.movieNotes.util.TxtFileReader;
 import com.squareup.picasso.Picasso;
@@ -23,6 +25,7 @@ public class RecyclerViewUserTopMovieListAdapter extends RecyclerView.Adapter<Re
 
     ArrayList<Movie> movieArrayList;
     Context context;
+    private static final String ON_CLICKED_ON_MOVIE_TOP_LIST_ACTIVITY_INTENT_KEY ="movie";
     private static final String TAG = "RecyclerViewUserTopMovie";
     private static final String MOVIE_ID_FILE_NAME="movie_id.txt";
 
@@ -45,6 +48,14 @@ public class RecyclerViewUserTopMovieListAdapter extends RecyclerView.Adapter<Re
         Picasso.get().load("https://image.tmdb.org/t/p/w500/"+movie.getMoviePosterImageURL())
                 .into(holder.imageView);
         movieDeleteButton(holder,movie, position);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(v.getContext(), MovieDetailActivity.class);
+                intent.putExtra(ON_CLICKED_ON_MOVIE_TOP_LIST_ACTIVITY_INTENT_KEY,movie);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     private void movieDeleteButton(TopMovieListVH holder,Movie movie2,int position) {

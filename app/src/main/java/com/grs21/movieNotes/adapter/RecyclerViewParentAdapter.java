@@ -27,25 +27,22 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
     ArrayList<Movie> popularMovieArrayList;
     ArrayList<Movie> topRateMovieArrayList;
     ArrayList<Movie> upComingArrayList;
-    ArrayList<Movie> nowPlayingArrayList;
     private String JSON_POPULAR_LIST_URL="https://api.themoviedb.org/3/movie/popular?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
     private String JSON_TOP_RATE_LIST_URl="https://api.themoviedb.org/3/movie/top_rated?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
     private String JSON_UP_COMING_LIST_URL="https://api.themoviedb.org/3/movie/upcoming?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
     private String JSON_NOW_PLAYING_LIST_URL="https://api.themoviedb.org/3/movie/now_playing?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
     private Category categoryPopular;
     private Category categoryTopRate;
-    private Category categoryNowPlaying;
     private Category categoryUpComing;
     private RecyclerViewParentAdapter recyclerViewParentAdapter=this;
 
     public  RecyclerViewParentAdapter(Context context, ArrayList<Category> categoryList,RecyclerView recyclerView,LinearLayoutManager layoutManager,ArrayList<Movie> popularMovieArrayList
-            , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList, ArrayList<Movie> nowPlayingMovieArrayList
-    ,Category categoryPopular,Category categoryTopRate,Category categoryNowPlaying,Category categoryUpComing)
+            , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList
+    ,Category categoryPopular,Category categoryTopRate,Category categoryUpComing)
     {
 
         this.categoryPopular=categoryPopular;
         this.categoryTopRate=categoryTopRate;
-        this.categoryNowPlaying=categoryNowPlaying;
         this.categoryUpComing=categoryUpComing;
         this.layoutManager=layoutManager;
         this.recyclerView=recyclerView;
@@ -54,7 +51,7 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
         this.popularMovieArrayList=popularMovieArrayList;
         this.topRateMovieArrayList=topRateMovieArrayList;
         this.upComingArrayList=upComingMovieArrayList;
-        this.nowPlayingArrayList=nowPlayingMovieArrayList;
+
     }
     @NonNull
     @Override
@@ -75,8 +72,8 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
             @Override
             public void onLoadMore(int currentPage,int lastItemLocation) {
                 MovieDownloaderForListener movieDownloaderForListener=new MovieDownloaderForListener(context,categoryList,layoutManager
-                        ,recyclerView,popularMovieArrayList,topRateMovieArrayList,upComingArrayList,nowPlayingArrayList
-                        , categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing);
+                        ,recyclerView,popularMovieArrayList,topRateMovieArrayList,upComingArrayList
+                        , categoryPopular,categoryTopRate,categoryUpComing);
                 switch (position){
                     case 0:
                         movieDownloaderForListener.download(String.format(JSON_POPULAR_LIST_URL,currentPage)
@@ -89,10 +86,6 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
                     case 2:
                         movieDownloaderForListener.download(String.format(JSON_UP_COMING_LIST_URL,currentPage)
                                 ,"Up Coming");
-                        break;
-                    case 3:
-                        movieDownloaderForListener.download(String.format(JSON_NOW_PLAYING_LIST_URL,currentPage)
-                                ,"Now Playing");
                         break;
                 }
             }

@@ -21,12 +21,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
+
 public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerViewChildAdapter.ViewHolderBoxAdapter> {
-    private static final String ON_CLICKED_MOVIE_IN_MAIN_ACTIVITY_INTENT_KEY ="movie";
+    private static final String ON_CLICKED_ON_MOVIE_MAIN_ACTIVITY_INTENT_KEY ="movie";
     private ArrayList<Movie> movieArrayList;
     private static final String TAG = "BoxAdapter";
     private Context context;
     private static final String MOVIE_ID_FILE_NAME="movie_id.txt";
+
 
     public RecyclerViewChildAdapter(ArrayList<Movie>movieArrayList, Context context) {
         this.movieArrayList=movieArrayList;
@@ -51,13 +54,15 @@ public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerView
             public void onClick(View v) {
                 Intent intent=new Intent(v.getContext(), MovieDetailActivity.class);
                 Movie movie=movieArrayList.get(position);
-                intent.putExtra(ON_CLICKED_MOVIE_IN_MAIN_ACTIVITY_INTENT_KEY,movie);
+                intent.putExtra(ON_CLICKED_ON_MOVIE_MAIN_ACTIVITY_INTENT_KEY,movie);
                 v.getContext().startActivity(intent);
             }
         });
         movieAddButtonListener(holder,movie);
     }
     private void movieAddButtonListener(ViewHolderBoxAdapter holder,Movie movie) {
+
+
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,13 +91,18 @@ public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerView
                                 }
                             }
                         }
-                        Toast toast = Toast.makeText(context, R.string.MOVIE_ALREADY_RECORDED, Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER,0,0);
-                        toast.show();
+                        Toast toastSuccess=Toasty.success(context,""
+                                ,Toast.LENGTH_SHORT,true);
+                        toastSuccess.setGravity(Gravity.CENTER,0,0);
+                        toastSuccess.show();
                     }else  {
-                        Toast toast = Toast.makeText(context, R.string.MOVIE_ALREADY_RECORDED, Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER,0,0);
-                        toast.show();
+
+
+                       Toast toastWarning =Toasty.warning(context,context.getString(R.string.MOVIE_ALREADY_RECORDED)
+                               ,Toast.LENGTH_SHORT,true);
+                       toastWarning.setGravity(Gravity.CENTER,0,0);
+                       toastWarning.show();
+
                     }
             }
         });

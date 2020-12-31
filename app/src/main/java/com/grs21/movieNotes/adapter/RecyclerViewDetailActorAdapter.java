@@ -1,5 +1,6 @@
 package com.grs21.movieNotes.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 
 public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<RecyclerViewDetailActorAdapter.ActorVH> {
     ArrayList<Actor> actorArrayList;
+    private static final String TAG = "RecyclerViewDetailActor";
     public RecyclerViewDetailActorAdapter(ArrayList<Actor> actorArrayList){
         this.actorArrayList=actorArrayList;
 
@@ -29,13 +31,9 @@ public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(@NonNull ActorVH holder, int position) {
 
         holder.textView.setText(actorArrayList.get(position).getName());
-        if(actorArrayList.get(position).getActorPosterURl()==null ||actorArrayList.get(position).getActorPosterURl().isEmpty()){
-                    holder.imageView.setImageResource(R.drawable.ic_launcher_foreground);
-        }
-        else{
-            Picasso.get().load("https://image.tmdb.org/t/p/w500/"+actorArrayList.get(position)
+        Picasso.get().load("https://image.tmdb.org/t/p/w500/"+actorArrayList.get(position)
                     .getActorPosterURl()).into(holder.imageView);
-        }
+
     }
     @Override
     public int getItemCount() {

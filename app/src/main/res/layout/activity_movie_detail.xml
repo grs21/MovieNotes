@@ -32,21 +32,22 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-
         app:layout_constraintTop_toBottomOf="@+id/detailActivityToolBar">
 
         <ImageView
             android:id="@+id/cardViewImageBackGround"
             android:layout_width="match_parent"
             android:layout_height="360dp"
+            android:src="@drawable/top_list_background"
             android:scaleType="fitXY"
 
             />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+
+            >
 
             <ImageView
                 android:id="@+id/topListImage"
@@ -54,7 +55,9 @@
                 android:layout_height="200dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintVertical_bias="0.214" />
+                app:layout_constraintVertical_bias="0.214"
+
+                />
             <ImageButton
                 android:id="@+id/detailAddMovieButton"
                 android:layout_width="wrap_content"
@@ -108,13 +111,6 @@
                 android:layout_toRightOf="@id/topListImage"
                 android:layout_marginStart="5dp"
                 />
-
-
-
-
-
-
-
             <TextView
                 android:id="@+id/textViewOverView"
                 android:layout_width="match_parent"
@@ -154,6 +150,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
+        android:layout_marginTop="7dp"
 
         />
 

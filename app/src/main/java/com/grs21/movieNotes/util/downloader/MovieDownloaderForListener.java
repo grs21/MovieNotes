@@ -12,6 +12,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.activity.MainActivity;
 import com.grs21.movieNotes.adapter.RecyclerViewParentAdapter;
 import com.grs21.movieNotes.model.Category;
@@ -42,22 +43,19 @@ public class MovieDownloaderForListener {
     ArrayList<Movie> popularMovieArrayList;
     ArrayList<Movie> topRateMovieArrayList;
     ArrayList<Movie> upComingArrayList;
-    ArrayList<Movie> nowPlayingArrayList;
     private Category categoryPopular;
     private Category categoryTopRate;
-    private Category categoryNowPlaying;
     private Category categoryUpComing;
 
     public MovieDownloaderForListener(Context context, ArrayList<Category> categoryArrayList
             , LinearLayoutManager layoutManager, RecyclerView recyclerView,  ArrayList<Movie> popularMovieArrayList
-            , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList, ArrayList<Movie> nowPlayingMovieArrayList
-            ,Category categoryPopular,Category categoryTopRate,Category categoryNowPlaying,Category categoryUpComing)
+            , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList
+            ,Category categoryPopular,Category categoryTopRate,Category categoryUpComing)
     {
 
 
         this.categoryPopular=categoryPopular;
         this.categoryTopRate=categoryTopRate;
-        this.categoryNowPlaying=categoryNowPlaying;
         this.categoryUpComing=categoryUpComing;
         this.context = context;
         this.categoryArrayList=categoryArrayList;
@@ -66,7 +64,7 @@ public class MovieDownloaderForListener {
         this.popularMovieArrayList=popularMovieArrayList;
         this.topRateMovieArrayList=topRateMovieArrayList;
         this.upComingArrayList=upComingMovieArrayList;
-        this.nowPlayingArrayList=nowPlayingMovieArrayList;
+
     }
     public void download(String url, String titleCategory) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET
@@ -91,37 +89,30 @@ public class MovieDownloaderForListener {
                     switch (titleCategory){
                         case "Popular":
                             popularMovieArrayList.addAll(movieArrayList);
-                            categoryPopular.setCategoryTitle(titleCategory);
+                            categoryPopular.setCategoryTitle(context.getString(R.string.popular));
                             categoryPopular.setMovieArrayList(popularMovieArrayList);
 
                             break;
                         case "Top Rate":
                             topRateMovieArrayList.addAll(movieArrayList);
-                            categoryTopRate.setCategoryTitle(titleCategory);
+                            categoryTopRate.setCategoryTitle(context.getString(R.string.Top_Rate));
                             categoryTopRate.setMovieArrayList(topRateMovieArrayList);
 
                             break;
                         case "Up Coming":
                             upComingArrayList.addAll(movieArrayList);
-                            categoryUpComing.setCategoryTitle(titleCategory);
+                            categoryUpComing.setCategoryTitle(context.getString(R.string.Up_coming));
                             categoryUpComing.setMovieArrayList(upComingArrayList);
 
                             break;
-                        case "Now Playing":
-                            nowPlayingArrayList.addAll(movieArrayList);
-                            categoryNowPlaying.setCategoryTitle(titleCategory);
-                            categoryNowPlaying.setMovieArrayList(nowPlayingArrayList);
 
-                            break;
                     }
                     categoryArrayList.add(categoryPopular);
                     categoryArrayList.add(categoryTopRate);
                     categoryArrayList.add(categoryUpComing);
-                    categoryArrayList.add(categoryNowPlaying);
                     RecyclerViewParentAdapter recyclerViewParentAdapter=new RecyclerViewParentAdapter(context
                                         ,categoryArrayList,recyclerView,layoutManager,popularMovieArrayList,topRateMovieArrayList
-                                        ,upComingArrayList,nowPlayingArrayList
-                                        ,categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing);
+                                        ,upComingArrayList,categoryPopular,categoryTopRate,categoryUpComing);
                                         recyclerViewParentAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();

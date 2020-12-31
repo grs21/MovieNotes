@@ -13,4 +13,5 @@
     <string name="send" translatable="false">Gönder</string>
     <string name="title_notifications" translatable="false">Dikkat</string>
     <string name="language" translatable="false">tr</string>
+    <string name="Added_message">Eklendi</string>
 </resources>

@@ -8,6 +8,7 @@
     import androidx.recyclerview.widget.RecyclerView;
 
     import android.content.Intent;
+    import android.os.AsyncTask;
     import android.os.Bundle;
     import android.text.Editable;
     import android.text.TextWatcher;
@@ -59,13 +60,10 @@
         private static final String JSON_OBJECT_KEYWORD_VOTE_AVERAGE="vote_average";
         private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
         private static final String JSON_OBJECT_KEYWORD_BACKDROP_PATH="backdrop_path";
-
-
         private SliderView sliderView;
         private RecyclerView recyclerViewParent;
         private ArrayList<Movie> popular =new ArrayList<>();
         private ArrayList<Movie> topRate =new ArrayList<>();
-        private ArrayList<Movie> nowPlaying =new ArrayList<>();
         private ArrayList<Movie> upComing =new ArrayList<>();
         private ArrayList<Category> totalCategory=new ArrayList<>();
         private AutoCompleteTextView autoCompleteTextView;
@@ -79,16 +77,16 @@
             setSupportActionBar(toolbar);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.search_icon);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
             LinearLayoutManager linearLayoutManagerParentRecyclerView = new LinearLayoutManager(this);
             linearLayoutManagerParentRecyclerView.setOrientation(LinearLayoutManager.VERTICAL);
             MovieInitializeDownLoader movieInitializeDownLoader =new MovieInitializeDownLoader(MainActivity.this,recyclerViewParent
-                    , linearLayoutManagerParentRecyclerView,totalCategory,popular,topRate,upComing,nowPlaying);
+                    , linearLayoutManagerParentRecyclerView,totalCategory,popular,topRate,upComing);
             movieInitializeDownLoader.download(JSON_POPULAR_LIST_URL,"Popular");
             movieInitializeDownLoader.download(JSON_TOP_RATE_LIST_URl,"Top Rate");
-            movieInitializeDownLoader.download(JSON_NOW_PLAYING_LIST_URL,"Up Coming");
-            movieInitializeDownLoader.download(JSON_UP_COMING_LIST_URL,"Now Playing");
-            sliderImageDownload(JSON_UP_COMING_LIST_URL);
+            movieInitializeDownLoader.download(JSON_UP_COMING_LIST_URL,"Up Coming");
+            //sliderImageDownload(JSON_NOW_PLAYING_LIST_URL);
+            new SliderImageDownloader().execute(JSON_NOW_PLAYING_LIST_URL);
+
             if (getIntent().getBooleanExtra("LOGOUT", false))
             {
                 finish();
@@ -97,6 +95,7 @@
         }
         private void autoCompleteTextView() {
             autoCompleteTextView.setDropDownHeight(400);
+            autoCompleteTextView.setDropDownWidth(800);
             autoCompleteTextView.setDropDownVerticalOffset(5);
             autoCompleteTextView.setThreshold(2);
             autoCompleteTextView.clearFocus();
@@ -158,42 +157,47 @@
             });
         }
 
-        public void sliderImageDownload(String imageDataURL){
-            JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET
-                    , imageDataURL
-                    , null
-                    , new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        JSONArray jsonArray=response.getJSONArray(JSON_OBJECT_KEYWORD_RESULT);
-                        for (int i=0;i<13;i++){
-                           movie=new Movie();
-                           movie.setId(jsonArray.getJSONObject(i).getInt(JSON_OBJECT_KEYWORD_ID));
-                           movie.setMovieName(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_MOVIE_TITLE));
-                           movie.setMoviePosterImageURL(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_POSTER_PATH));
-                           movie.setRank(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_VOTE_AVERAGE));
-                           movie.setReleaseDate(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_RELEASE_DATE));
-                           movie.setMovieBackdropPathImageUrl(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_BACKDROP_PATH));
-                           sliderViewImageArrayList.add(movie);
+        private class SliderImageDownloader extends AsyncTask<String,Void,String>{
+            @Override
+            protected String doInBackground(String... strings) {
+                JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET
+                        , strings[0]
+                        , null
+                        , new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray=response.getJSONArray(JSON_OBJECT_KEYWORD_RESULT);
+                            for (int i=0;i<13;i++){
+                                movie=new Movie();
+                                movie.setId(jsonArray.getJSONObject(i).getInt(JSON_OBJECT_KEYWORD_ID));
+                                movie.setMovieName(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_MOVIE_TITLE));
+                                movie.setMoviePosterImageURL(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_POSTER_PATH));
+                                movie.setRank(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_VOTE_AVERAGE));
+                                movie.setReleaseDate(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_RELEASE_DATE));
+                                movie.setMovieBackdropPathImageUrl(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_BACKDROP_PATH));
+                                sliderViewImageArrayList.add(movie);
+                            }
+                            Log.d(TAG, "onResponse: "+sliderViewImageArrayList);
+                            SliderImageAdapter sliderImageAdapter=new SliderImageAdapter(sliderViewImageArrayList,MainActivity.this);
+                            sliderView.setSliderAdapter(sliderImageAdapter);
+                            sliderView.startAutoCycle();
+                            sliderView.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        Log.d(TAG, "onResponse: "+sliderViewImageArrayList);
-                        SliderImageAdapter sliderImageAdapter=new SliderImageAdapter(sliderViewImageArrayList,MainActivity.this);
-                        sliderView.setSliderAdapter(sliderImageAdapter);
-                        sliderView.startAutoCycle();
-                        sliderView.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
                 }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d(TAG, "onErrorResponse: "+error);
-                }
-            });
-            HttpConnector.getInstance(MainActivity.this).addRequestQue(jsonObjectRequest);
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "onErrorResponse: "+error);
+                    }
+                });
+                HttpConnector.getInstance(MainActivity.this).addRequestQue(jsonObjectRequest);
+                return null;
+            }
         }
+
         public void initializeComponent(){
             sliderView=findViewById(R.id.imageSlider);
             recyclerViewParent=findViewById(R.id.recyclerViewParent);

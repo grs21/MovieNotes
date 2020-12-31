@@ -41,9 +41,8 @@ import java.util.ArrayList;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
-    private static final String ON_CLICKED_MOVIE_ID_INTENT_KEY="id";
-    private static final String ON_CLICKED_ON_THE_MOVIE_INTENT_KEY ="movie";
 
+    private static final String ON_CLICKED_ON_THE_MOVIE_INTENT_KEY ="movie";
     private ArrayList<Actor> actorArrayList=new ArrayList<>();
     private ImageView movieImage,cardViewBackGround;
     private TextView textViewMovieName, textViewReleaseDate, textViewRank, textViewGenres, textViewOverview;
@@ -140,9 +139,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject= response.getJSONObject(JSON_OBJECT_KEYWORD_CREDITS);
                     JSONArray jsonArray1=jsonObject.getJSONArray(JSON_OBJECT_KEYWORD_CAST);
-                    for (int i = 0; i <10 ; i++) {
+                    Log.d(TAG, "onResponse: "+movieId);
+                    Log.d(TAG, "onResponse: "+jsonArray1.toString());
+                    for (int i = 0; i <jsonArray1.length() ; i++) {
                         Actor actor=new Actor(jsonArray1.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_NAME)
-                        ,jsonArray1.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_MOVIE_PROFILE_PATH));
+                                ,jsonArray1.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_MOVIE_PROFILE_PATH));
                         actorArrayList.add(actor);
                     }
                     RecyclerViewDetailActorAdapter recyclerViewDetailActorAdapter=new RecyclerViewDetailActorAdapter(actorArrayList);

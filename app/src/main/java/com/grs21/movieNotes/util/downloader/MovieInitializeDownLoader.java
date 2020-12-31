@@ -12,6 +12,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.activity.MainActivity;
 import com.grs21.movieNotes.adapter.RecyclerViewParentAdapter;
 import com.grs21.movieNotes.model.Category;
@@ -38,7 +39,6 @@ public class MovieInitializeDownLoader {
     private Context context;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
-    private RecyclerViewParentAdapter recyclerViewParentAdapter;
     private ArrayList<Category> categoryArrayList;
     private Category categoryPopular=new Category();
     private Category categoryTopRate=new Category();
@@ -47,15 +47,13 @@ public class MovieInitializeDownLoader {
     ArrayList<Movie> popularMovieArrayList;
     ArrayList<Movie> topRateMovieArrayList;
     ArrayList<Movie> upComingArrayList;
-    ArrayList<Movie> nowPlayingArrayList;
     public MovieInitializeDownLoader(Context context, RecyclerView recyclerView, LinearLayoutManager layoutManager
             , ArrayList<Category> categoryArrayList, ArrayList<Movie> popularMovieArrayList
-            , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList, ArrayList<Movie> nowPlayingMovieArrayList)
+            , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList)
     {
         this.popularMovieArrayList=popularMovieArrayList;
         this.topRateMovieArrayList=topRateMovieArrayList;
         this.upComingArrayList=upComingMovieArrayList;
-        this.nowPlayingArrayList=nowPlayingMovieArrayList;
         this.categoryArrayList=categoryArrayList;
         this.context = context;
         this.recyclerView = recyclerView;
@@ -87,33 +85,28 @@ public class MovieInitializeDownLoader {
                     switch (titleCategory){
                         case "Popular":
                             popularMovieArrayList.addAll(movieArrayList);
-                            categoryPopular.setCategoryTitle(titleCategory);
+                            categoryPopular.setCategoryTitle(context.getString(R.string.popular));
                             categoryPopular.setMovieArrayList(popularMovieArrayList);
                             categoryArrayList.add(categoryPopular);
                             break;
                         case "Top Rate":
                             topRateMovieArrayList.addAll(movieArrayList);
-                            categoryTopRate.setCategoryTitle(titleCategory);
+                            categoryTopRate.setCategoryTitle(context.getString(R.string.Top_Rate));
                             categoryTopRate.setMovieArrayList(topRateMovieArrayList);
                             categoryArrayList.add(categoryTopRate);
                             break;
                         case "Up Coming":
                             upComingArrayList.addAll(movieArrayList);
-                            categoryUpComing.setCategoryTitle(titleCategory);
+                            categoryUpComing.setCategoryTitle(context.getString(R.string.Up_coming));
                             categoryUpComing.setMovieArrayList(upComingArrayList);
                             categoryArrayList.add(categoryUpComing);
                             break;
-                        case "Now Playing":
-                            nowPlayingArrayList.addAll(movieArrayList);
-                            categoryNowPlaying.setCategoryTitle(titleCategory);
-                            categoryNowPlaying.setMovieArrayList(nowPlayingArrayList);
-                            categoryArrayList.add(categoryNowPlaying);
-                            break;
+
                     }
                     RecyclerViewParentAdapter recyclerViewParentAdapter=new RecyclerViewParentAdapter(context
                                  ,categoryArrayList,recyclerView,layoutManager
-                                 ,popularMovieArrayList,topRateMovieArrayList,upComingArrayList,nowPlayingArrayList
-                                 , categoryPopular,categoryTopRate, categoryNowPlaying,categoryUpComing);
+                                 ,popularMovieArrayList,topRateMovieArrayList,upComingArrayList
+                                 , categoryPopular,categoryTopRate,categoryUpComing);
 
                              recyclerView.setAdapter(recyclerViewParentAdapter);
                              recyclerView.setLayoutManager(layoutManager);
