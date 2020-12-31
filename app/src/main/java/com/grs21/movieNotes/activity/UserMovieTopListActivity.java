@@ -44,16 +44,10 @@ public class UserMovieTopListActivity extends AppCompatActivity {
         initializeComponent();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         Intent intent=getIntent();
         ArrayList<String>userTopMovieList= intent.getStringArrayListExtra(ON_CLICKED_HOME_BUTTON_INTENT_KEY);
-
-
-
         MovieDownLoader movieDownLoader=new MovieDownLoader();
         movieDownLoader.execute(userTopMovieList);
-
-
     }
     @SuppressLint("StaticFieldLeak")
     public class MovieDownLoader extends AsyncTask<ArrayList<String>, Value,String>{
@@ -106,8 +100,6 @@ public class UserMovieTopListActivity extends AppCompatActivity {
             return null;
         }
     }
-
-
     private void initializeComponent() {
         recyclerView=findViewById(R.id.recyclerViewMovieList);
         toolbar=findViewById(R.id.uerTopListActivityToolBar);

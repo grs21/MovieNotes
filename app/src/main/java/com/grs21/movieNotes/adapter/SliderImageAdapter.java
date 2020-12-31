@@ -3,13 +3,11 @@ package com.grs21.movieNotes.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.activity.MovieDetailActivity;
 import com.grs21.movieNotes.model.Movie;
@@ -34,7 +32,6 @@ public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.Sli
         View view=layoutInflater.inflate(R.layout.image_slider_item_layout,null);
         return new SliderViewAdapterVH(view);
     }
-
     @Override
     public void onBindViewHolder(SliderViewAdapterVH viewHolder, int position) {
         Movie movie= movieSliderItemArrayList.get(position);
@@ -53,7 +50,6 @@ public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.Sli
             }
         });
     }
-
     @Override
     public int getCount() {
         return movieSliderItemArrayList.size();

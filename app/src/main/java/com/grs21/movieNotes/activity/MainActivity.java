@@ -84,7 +84,7 @@
             movieInitializeDownLoader.download(JSON_POPULAR_LIST_URL,"Popular");
             movieInitializeDownLoader.download(JSON_TOP_RATE_LIST_URl,"Top Rate");
             movieInitializeDownLoader.download(JSON_UP_COMING_LIST_URL,"Up Coming");
-            //sliderImageDownload(JSON_NOW_PLAYING_LIST_URL);
+
             new SliderImageDownloader().execute(JSON_NOW_PLAYING_LIST_URL);
 
             if (getIntent().getBooleanExtra("LOGOUT", false))

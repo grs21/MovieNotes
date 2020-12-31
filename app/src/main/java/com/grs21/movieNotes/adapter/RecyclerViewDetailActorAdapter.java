@@ -1,6 +1,6 @@
 package com.grs21.movieNotes.adapter;
 
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,6 @@ public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<Recycle
     private static final String TAG = "RecyclerViewDetailActor";
     public RecyclerViewDetailActorAdapter(ArrayList<Actor> actorArrayList){
         this.actorArrayList=actorArrayList;
-
     }
     @NonNull
     @Override
@@ -33,7 +32,6 @@ public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<Recycle
         holder.textView.setText(actorArrayList.get(position).getName());
         Picasso.get().load("https://image.tmdb.org/t/p/w500/"+actorArrayList.get(position)
                     .getActorPosterURl()).into(holder.imageView);
-
     }
     @Override
     public int getItemCount() {
@@ -47,7 +45,6 @@ public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<Recycle
             super(itemView);
             imageView=itemView.findViewById(R.id.actor_image);
             textView=itemView.findViewById(R.id.actor_name_textView);
-
         }
     }
 }

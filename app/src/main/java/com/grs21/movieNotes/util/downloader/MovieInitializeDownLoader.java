@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
@@ -18,7 +17,6 @@ import com.grs21.movieNotes.adapter.RecyclerViewParentAdapter;
 import com.grs21.movieNotes.model.Category;
 import com.grs21.movieNotes.model.Movie;
 import com.grs21.movieNotes.util.HttpConnector;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,7 +40,6 @@ public class MovieInitializeDownLoader {
     private ArrayList<Category> categoryArrayList;
     private Category categoryPopular=new Category();
     private Category categoryTopRate=new Category();
-    private Category categoryNowPlaying=new Category();
     private Category categoryUpComing=new Category();
     ArrayList<Movie> popularMovieArrayList;
     ArrayList<Movie> topRateMovieArrayList;
@@ -101,7 +98,6 @@ public class MovieInitializeDownLoader {
                             categoryUpComing.setMovieArrayList(upComingArrayList);
                             categoryArrayList.add(categoryUpComing);
                             break;
-
                     }
                     RecyclerViewParentAdapter recyclerViewParentAdapter=new RecyclerViewParentAdapter(context
                                  ,categoryArrayList,recyclerView,layoutManager

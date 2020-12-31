@@ -20,7 +20,6 @@ import com.squareup.picasso.Picasso;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import es.dmoral.toasty.Toasty;
 
 public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerViewChildAdapter.ViewHolderBoxAdapter> {
@@ -61,8 +60,6 @@ public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerView
         movieAddButtonListener(holder,movie);
     }
     private void movieAddButtonListener(ViewHolderBoxAdapter holder,Movie movie) {
-
-
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,13 +93,10 @@ public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerView
                         toastSuccess.setGravity(Gravity.CENTER,0,0);
                         toastSuccess.show();
                     }else  {
-
-
-                       Toast toastWarning =Toasty.warning(context,context.getString(R.string.MOVIE_ALREADY_RECORDED)
+                        Toast toastWarning =Toasty.warning(context,context.getString(R.string.MOVIE_ALREADY_RECORDED)
                                ,Toast.LENGTH_SHORT,true);
                        toastWarning.setGravity(Gravity.CENTER,0,0);
                        toastWarning.show();
-
                     }
             }
         });

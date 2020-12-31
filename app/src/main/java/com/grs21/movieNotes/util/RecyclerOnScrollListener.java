@@ -16,7 +16,6 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
     public RecyclerOnScrollListener(LinearLayoutManager linearLayoutManager){
         this.myLinearLayoutManager=linearLayoutManager;
     }
-
     @Override
     public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
@@ -24,7 +23,6 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
              isScrolling=true;
         }
     }
-
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
@@ -38,7 +36,5 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
             onLoadMore(currentPage,lastVisibleItem);
         }
     }
-
     public abstract  void onLoadMore(int currentPage,int lastVisibleItem);
-
 }

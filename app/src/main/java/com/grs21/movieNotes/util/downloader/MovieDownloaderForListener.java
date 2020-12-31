@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.Settings;
 import android.util.Log;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.grs21.movieNotes.adapter.RecyclerViewParentAdapter;
 import com.grs21.movieNotes.model.Category;
 import com.grs21.movieNotes.model.Movie;
 import com.grs21.movieNotes.util.HttpConnector;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,8 +50,6 @@ public class MovieDownloaderForListener {
             , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList
             ,Category categoryPopular,Category categoryTopRate,Category categoryUpComing)
     {
-
-
         this.categoryPopular=categoryPopular;
         this.categoryTopRate=categoryTopRate;
         this.categoryUpComing=categoryUpComing;

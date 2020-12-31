@@ -8,9 +8,6 @@ import java.util.Scanner;
 public class TxtFileReader {
     private static final String FILE_ROOT="/data/user/0/com.grs21.movienotes/files/movie_id.txt";
     private ArrayList<String> movieID=new ArrayList<>();
-
-
-
     public synchronized ArrayList<String> read(){
         Scanner scanner=null;
         File file=new File(FILE_ROOT);
@@ -28,7 +25,5 @@ public class TxtFileReader {
             }
         }
         return movieID;
-
     }
-
 }

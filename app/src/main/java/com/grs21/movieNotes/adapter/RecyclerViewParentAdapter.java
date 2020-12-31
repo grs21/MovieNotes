@@ -13,7 +13,6 @@ import com.grs21.movieNotes.model.Category;
 import com.grs21.movieNotes.model.Movie;
 import com.grs21.movieNotes.util.downloader.MovieDownloaderForListener;
 import com.grs21.movieNotes.util.RecyclerOnScrollListener;
-
 import java.util.ArrayList;
 
 public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerViewParentAdapter.ViewHolderRowAdapter>{
@@ -40,7 +39,6 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
             , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList
     ,Category categoryPopular,Category categoryTopRate,Category categoryUpComing)
     {
-
         this.categoryPopular=categoryPopular;
         this.categoryTopRate=categoryTopRate;
         this.categoryUpComing=categoryUpComing;
@@ -51,7 +49,6 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
         this.popularMovieArrayList=popularMovieArrayList;
         this.topRateMovieArrayList=topRateMovieArrayList;
         this.upComingArrayList=upComingMovieArrayList;
-
     }
     @NonNull
     @Override

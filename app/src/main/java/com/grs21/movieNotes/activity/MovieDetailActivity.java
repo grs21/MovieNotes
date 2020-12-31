@@ -38,6 +38,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
+
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -68,7 +70,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         initializeComponent();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         intent=getIntent();
         movie=(Movie) intent.getSerializableExtra(ON_CLICKED_ON_THE_MOVIE_INTENT_KEY);
         setComponentValue();
@@ -118,11 +119,17 @@ public class MovieDetailActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
+                    Toast toastSuccess= Toasty.success(MovieDetailActivity.this,""
+                            ,Toast.LENGTH_SHORT,true);
+                    toastSuccess.setGravity(Gravity.CENTER,0,0);
+                    toastSuccess.show();
                 }
                 else {
-                    Toast toast = Toast.makeText(MovieDetailActivity.this, R.string.MOVIE_ALREADY_RECORDED, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER,0,0);
-                    toast.show();
+                    Toast toastWarning =Toasty.warning(MovieDetailActivity.this
+                            ,MovieDetailActivity.this.getString(R.string.MOVIE_ALREADY_RECORDED)
+                            ,Toast.LENGTH_SHORT,true);
+                    toastWarning.setGravity(Gravity.CENTER,0,0);
+                    toastWarning.show();
                 }
             }
         });
@@ -195,6 +202,4 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         toolbar=findViewById(R.id.detailActivityToolBar);
     }
-
-
 }
