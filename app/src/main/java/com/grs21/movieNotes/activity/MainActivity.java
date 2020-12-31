@@ -221,10 +221,15 @@
                     startActivity(intent);
                     break;
                     case R.id.sendButton:
-                    Movie movie=(Movie)autoCompleteTextView.getTag();
-                    Intent intent1=new Intent(MainActivity.this,MovieDetailActivity.class);
-                    intent1.putExtra(ON_CLICKED_ON_THE_MOVIE_INTENT_KEY,movie);
-                    startActivity(intent1);
+                        if (autoCompleteTextView.getTag() == null){
+                            break;
+                        }else {
+                            Log.d(TAG, "onOptionsItemSelected: "+autoCompleteTextView.getTag().toString());
+                            Movie movie=(Movie)autoCompleteTextView.getTag();
+                            Intent intent1=new Intent(MainActivity.this,MovieDetailActivity.class);
+                            intent1.putExtra(ON_CLICKED_ON_THE_MOVIE_INTENT_KEY,movie);
+                            startActivity(intent1);
+                        }
                     break;
             }
             return super.onOptionsItemSelected(item);
