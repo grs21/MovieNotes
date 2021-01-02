@@ -6,26 +6,20 @@
     import androidx.appcompat.widget.Toolbar;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
-
     import android.content.Intent;
     import android.os.AsyncTask;
     import android.os.Bundle;
     import android.text.Editable;
     import android.text.TextWatcher;
-    import android.util.Log;
     import android.view.Menu;
     import android.view.MenuItem;
     import android.view.View;
     import android.widget.AdapterView;
     import android.widget.ArrayAdapter;
     import android.widget.AutoCompleteTextView;
-
-
     import com.android.volley.Request;
-
     import com.android.volley.Response;
     import com.android.volley.VolleyError;
-
     import com.android.volley.toolbox.JsonObjectRequest;
     import com.grs21.movieNotes.R;
     import com.grs21.movieNotes.adapter.SliderImageAdapter;
@@ -44,7 +38,6 @@
     public class MainActivity extends AppCompatActivity  {
 
         private Movie movie;
-        private static final String TAG = "MainActivity";
         public static final String JSON_POPULAR_LIST_URL="https://api.themoviedb.org/3/movie/popular?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
         public static final String JSON_TOP_RATE_LIST_URl="https://api.themoviedb.org/3/movie/top_rated?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
         public static final String JSON_UP_COMING_LIST_URL="https://api.themoviedb.org/3/movie/upcoming?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US&page=%d";
@@ -68,7 +61,6 @@
         private ArrayList<Category> totalCategory=new ArrayList<>();
         private AutoCompleteTextView autoCompleteTextView;
         private Toolbar toolbar;
-
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -84,9 +76,7 @@
             movieInitializeDownLoader.download(JSON_POPULAR_LIST_URL,"Popular");
             movieInitializeDownLoader.download(JSON_TOP_RATE_LIST_URl,"Top Rate");
             movieInitializeDownLoader.download(JSON_UP_COMING_LIST_URL,"Up Coming");
-
             new SliderImageDownloader().execute(JSON_NOW_PLAYING_LIST_URL);
-
             if (getIntent().getBooleanExtra("LOGOUT", false))
             {
                 finish();
@@ -138,7 +128,7 @@
                                 , new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.d(TAG, "onErrorResponse: " + error);
+
                             }
                         });
                     HttpConnector.getInstance(MainActivity.this).addRequestQue(jsonObjectRequest);
@@ -156,7 +146,6 @@
                 }
             });
         }
-
         private class SliderImageDownloader extends AsyncTask<String,Void,String>{
             @Override
             protected String doInBackground(String... strings) {
@@ -178,7 +167,6 @@
                                 movie.setMovieBackdropPathImageUrl(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_BACKDROP_PATH));
                                 sliderViewImageArrayList.add(movie);
                             }
-                            Log.d(TAG, "onResponse: "+sliderViewImageArrayList);
                             SliderImageAdapter sliderImageAdapter=new SliderImageAdapter(sliderViewImageArrayList,MainActivity.this);
                             sliderView.setSliderAdapter(sliderImageAdapter);
                             sliderView.startAutoCycle();
@@ -190,27 +178,23 @@
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "onErrorResponse: "+error);
                     }
                 });
                 HttpConnector.getInstance(MainActivity.this).addRequestQue(jsonObjectRequest);
                 return null;
             }
         }
-
         public void initializeComponent(){
             sliderView=findViewById(R.id.imageSlider);
             recyclerViewParent=findViewById(R.id.recyclerViewParent);
             autoCompleteTextView=findViewById(R.id.autoCompleteTextView);
             toolbar=findViewById(R.id.mainActivityToolBar);
         }
-
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
             getMenuInflater().inflate(R.menu.bottom_nav_menu,menu);
             return true;
         }
-
         @Override
         public boolean onOptionsItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()){
@@ -224,7 +208,6 @@
                         if (autoCompleteTextView.getTag() == null){
                             break;
                         }else {
-                            Log.d(TAG, "onOptionsItemSelected: "+autoCompleteTextView.getTag().toString());
                             Movie movie=(Movie)autoCompleteTextView.getTag();
                             Intent intent1=new Intent(MainActivity.this,MovieDetailActivity.class);
                             intent1.putExtra(ON_CLICKED_ON_THE_MOVIE_INTENT_KEY,movie);

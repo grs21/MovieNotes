@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
@@ -31,8 +30,6 @@ public class MovieDownloaderForListener {
     private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
     private static final String JSON_OBJECT_KEYWORD_RESULT ="results";
     private static final String JSON_OBJECT_KEYWORD_BACKDROP_PATH="backdrop_path";
-
-    private static  String TAG = "MovieDownloaderForListener";
     private ArrayList<Movie> movieArrayList=new ArrayList<>();
     private ArrayList<Category> categoryArrayList;
     private final Context context;
@@ -44,7 +41,6 @@ public class MovieDownloaderForListener {
     private Category categoryPopular;
     private Category categoryTopRate;
     private Category categoryUpComing;
-
     public MovieDownloaderForListener(Context context, ArrayList<Category> categoryArrayList
             , LinearLayoutManager layoutManager, RecyclerView recyclerView,  ArrayList<Movie> popularMovieArrayList
             , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList
@@ -87,21 +83,17 @@ public class MovieDownloaderForListener {
                             popularMovieArrayList.addAll(movieArrayList);
                             categoryPopular.setCategoryTitle(context.getString(R.string.popular));
                             categoryPopular.setMovieArrayList(popularMovieArrayList);
-
                             break;
                         case "Top Rate":
                             topRateMovieArrayList.addAll(movieArrayList);
                             categoryTopRate.setCategoryTitle(context.getString(R.string.Top_Rate));
                             categoryTopRate.setMovieArrayList(topRateMovieArrayList);
-
                             break;
                         case "Up Coming":
                             upComingArrayList.addAll(movieArrayList);
                             categoryUpComing.setCategoryTitle(context.getString(R.string.Up_coming));
                             categoryUpComing.setMovieArrayList(upComingArrayList);
-
                             break;
-
                     }
                     categoryArrayList.add(categoryPopular);
                     categoryArrayList.add(categoryTopRate);
@@ -117,7 +109,6 @@ public class MovieDownloaderForListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: " + error);
                 AlertDialog.Builder builder=new AlertDialog.Builder(context);
                 builder.setTitle("Connection Error");
                 builder.setPositiveButton("okey", new DialogInterface.OnClickListener() {

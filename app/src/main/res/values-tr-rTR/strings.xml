@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Movie Notes</string>
+    <string name="app_name">FilmKaydet</string>
     <string name="movie_name" translatable="false">Film Adı</string>
     <string name="title_home" translatable="false">Listem</string>
     <string name="genres_title" translatable="false">Tür</string>

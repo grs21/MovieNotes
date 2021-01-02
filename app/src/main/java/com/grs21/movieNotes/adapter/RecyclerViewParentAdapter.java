@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerViewParentAdapter.ViewHolderRowAdapter>{
 
-    private static final String TAG = "RowAdapter";
     private Context context;
     public ArrayList<Category> categoryList;
     private RecyclerViewChildAdapter recyclerViewChildAdapter;
@@ -34,7 +33,6 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
     private Category categoryTopRate;
     private Category categoryUpComing;
     private RecyclerViewParentAdapter recyclerViewParentAdapter=this;
-
     public  RecyclerViewParentAdapter(Context context, ArrayList<Category> categoryList,RecyclerView recyclerView,LinearLayoutManager layoutManager,ArrayList<Movie> popularMovieArrayList
             , ArrayList<Movie> topRateMovieArrayList, ArrayList<Movie> upComingMovieArrayList
     ,Category categoryPopular,Category categoryTopRate,Category categoryUpComing)
@@ -88,7 +86,6 @@ public  class  RecyclerViewParentAdapter extends RecyclerView.Adapter<RecyclerVi
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return categoryList.size();

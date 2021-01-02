@@ -6,17 +6,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 public final  class HttpConnector {
-    private static final String TAG = "HttpConnector";
-
-     private static HttpConnector instance;
+    private static HttpConnector instance;
      private RequestQueue requestQueue;
      private Context context;
-
      private HttpConnector (Context context){
          this.context=context;
          this.requestQueue=getRequestQueue();
      }
-
      public RequestQueue getRequestQueue(){
          //Todo:Imperative to applicationContext
          if (requestQueue==null){
@@ -24,14 +20,12 @@ public final  class HttpConnector {
          }
          return requestQueue;
      }
-
      public static HttpConnector getInstance(Context context){
          if (instance==null){
              instance=new HttpConnector(context);
          }
          return  instance;
      }
-
      //Todo:Generics addRequest
      public <T> void addRequestQue(Request<T> request){
          getRequestQueue().add(request);

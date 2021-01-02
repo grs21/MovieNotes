@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
@@ -21,7 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
-
 public class MovieInitializeDownLoader {
 
     private static final String JSON_OBJECT_KEYWORD_ID="id";
@@ -31,8 +29,6 @@ public class MovieInitializeDownLoader {
     private static final String JSON_OBJECT_KEYWORD_RELEASE_DATE="release_date";
     private static final String JSON_OBJECT_KEYWORD_RESULT ="results";
     private static final String JSON_OBJECT_KEYWORD_BACKDROP_PATH="backdrop_path";
-
-    private static final String TAG = "DownLoader";
     private ArrayList<Movie> movieArrayList;
     private Context context;
     private RecyclerView recyclerView;
@@ -56,8 +52,6 @@ public class MovieInitializeDownLoader {
         this.recyclerView = recyclerView;
         this.layoutManager = layoutManager;
     }
-
-
     public synchronized void download(String url,String titleCategory) {
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET
                 , url
@@ -78,7 +72,6 @@ public class MovieInitializeDownLoader {
                         movie.setMoviePosterImageURL(jsonArray.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_POSTER_PATH));
                         movieArrayList.add(movie);
                     }
-
                     switch (titleCategory){
                         case "Popular":
                             popularMovieArrayList.addAll(movieArrayList);
@@ -103,7 +96,6 @@ public class MovieInitializeDownLoader {
                                  ,categoryArrayList,recyclerView,layoutManager
                                  ,popularMovieArrayList,topRateMovieArrayList,upComingArrayList
                                  , categoryPopular,categoryTopRate,categoryUpComing);
-
                              recyclerView.setAdapter(recyclerViewParentAdapter);
                              recyclerView.setLayoutManager(layoutManager);
                 }
@@ -115,7 +107,6 @@ public class MovieInitializeDownLoader {
                 , new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: " + error);
                 AlertDialog.Builder builder=new AlertDialog.Builder(context);
                 builder.setTitle("Connection Error");
                 builder.setPositiveButton("okey", new DialogInterface.OnClickListener() {
@@ -132,6 +123,4 @@ public class MovieInitializeDownLoader {
         });
         HttpConnector.getInstance(context).addRequestQue(jsonArrayRequest);
     }
-
-
 }

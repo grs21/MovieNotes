@@ -1,6 +1,5 @@
 package com.grs21.movieNotes.model;
 
-
 import java.util.ArrayList;
 
 public class Category {

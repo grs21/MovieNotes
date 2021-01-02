@@ -9,7 +9,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -22,11 +21,7 @@ import com.smarteist.autoimageslider.IndicatorView.animation.data.Value;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
-
-
 public class UserMovieTopListActivity extends AppCompatActivity {
-
-    private static final String TAG = "UserMovieTopListActivit";
     private RecyclerView recyclerView;
     private static final String BASE_URL="https://api.themoviedb.org/3/movie/%s?api_key=e502c799007bd295e5f591cb3ae8fb46&language=en-US";
     private static final String JSON_OBJECT_KEYWORD_ID="id";
@@ -51,12 +46,10 @@ public class UserMovieTopListActivity extends AppCompatActivity {
     }
     @SuppressLint("StaticFieldLeak")
     public class MovieDownLoader extends AsyncTask<ArrayList<String>, Value,String>{
-
         @Override
         protected String doInBackground(ArrayList<String>... arrayLists) {
             ArrayList<Movie> movieArrayList=new ArrayList<>();
             String movieId = null;
-
             for (int i = 0; i < arrayLists[0].size(); i++) {
                 movieId = arrayLists[0].get(i);
                 @SuppressLint("DefaultLocale")
@@ -91,7 +84,6 @@ public class UserMovieTopListActivity extends AppCompatActivity {
                         , new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "onErrorResponse: "+error);
                     }
                 }
                 );

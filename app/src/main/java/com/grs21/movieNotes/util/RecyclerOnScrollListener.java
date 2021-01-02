@@ -9,7 +9,6 @@ public abstract class RecyclerOnScrollListener extends RecyclerView.OnScrollList
 
     private boolean isScrolling= false;
     int currentItem, scrollOutItems, totalItems,lastVisibleItem;
-
     private int currentPage=1;
     private final LinearLayoutManager myLinearLayoutManager;
 

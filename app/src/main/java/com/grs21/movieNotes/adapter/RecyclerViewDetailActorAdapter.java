@@ -1,6 +1,5 @@
 package com.grs21.movieNotes.adapter;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,8 @@ import com.grs21.movieNotes.R;
 import com.grs21.movieNotes.model.Actor;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
-
 public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<RecyclerViewDetailActorAdapter.ActorVH> {
     ArrayList<Actor> actorArrayList;
-    private static final String TAG = "RecyclerViewDetailActor";
     public RecyclerViewDetailActorAdapter(ArrayList<Actor> actorArrayList){
         this.actorArrayList=actorArrayList;
     }
@@ -37,7 +34,6 @@ public class RecyclerViewDetailActorAdapter extends RecyclerView.Adapter<Recycle
     public int getItemCount() {
         return actorArrayList.size();
     }
-
     public class ActorVH extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;

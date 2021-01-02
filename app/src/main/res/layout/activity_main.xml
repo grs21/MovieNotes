@@ -21,7 +21,9 @@
             android:background="@color/darkBlueLight"
             android:hint="@string/search"
             android:textColor="@color/white"
-            android:textColorHint="#92FFFFFF" />
+            android:textColorHint="#92FFFFFF"
+
+            />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView

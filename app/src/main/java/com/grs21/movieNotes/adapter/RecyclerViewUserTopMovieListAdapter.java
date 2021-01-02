@@ -19,14 +19,10 @@ import com.squareup.picasso.Picasso;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
-
 public class RecyclerViewUserTopMovieListAdapter extends RecyclerView.Adapter<RecyclerViewUserTopMovieListAdapter.TopMovieListVH> {
-
     ArrayList<Movie> movieArrayList;
     Context context;
     private static final String ON_CLICKED_ON_MOVIE_TOP_LIST_ACTIVITY_INTENT_KEY ="movie";
-    private static final String TAG = "RecyclerViewUserTopMovie";
     private static final String MOVIE_ID_FILE_NAME="movie_id.txt";
 
     public RecyclerViewUserTopMovieListAdapter(Context context, ArrayList<Movie>movieArrayList){
@@ -57,7 +53,6 @@ public class RecyclerViewUserTopMovieListAdapter extends RecyclerView.Adapter<Re
             }
         });
     }
-
     private void movieDeleteButton(TopMovieListVH holder,Movie movie2,int position) {
         holder.deleteMovieImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +71,6 @@ public class RecyclerViewUserTopMovieListAdapter extends RecyclerView.Adapter<Re
             }
         });
     }
-
     private void saveChanges(ArrayList<String> movieID) {
         FileOutputStream fileOutputStream = null;
         try {
@@ -97,7 +91,6 @@ public class RecyclerViewUserTopMovieListAdapter extends RecyclerView.Adapter<Re
             }
         }
     }
-
     @Override
     public int getItemCount() {
         return movieArrayList.size();
@@ -110,13 +103,10 @@ public class RecyclerViewUserTopMovieListAdapter extends RecyclerView.Adapter<Re
         public TopMovieListVH(@NonNull View itemView) {
             super(itemView);
             deleteMovieImageButton =itemView.findViewById(R.id.detailDeleteMovieButton);
-
             imageView=itemView.findViewById(R.id.topListImage);
-
             rankTextView=itemView.findViewById(R.id.topListEditTextRank);
             movieNameTextView =itemView.findViewById(R.id.topListNameTextView);
             movieReleaseDateTextView =itemView.findViewById(R.id.topListReleaseDate);
-
         }
     }
 }

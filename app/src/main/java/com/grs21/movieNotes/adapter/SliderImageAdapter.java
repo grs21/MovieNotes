@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.SliderViewAdapterVH> {
 
-    private static final String TAG = "SliderImageAdapter";
     private  ArrayList<Movie> movieSliderItemArrayList;
     private Context context;
 
@@ -54,7 +53,6 @@ public class SliderImageAdapter extends SliderViewAdapter<SliderImageAdapter.Sli
     public int getCount() {
         return movieSliderItemArrayList.size();
     }
-
     class SliderViewAdapterVH extends SliderViewAdapter.ViewHolder {
         View itemView;
         ImageView imageVieBackground;

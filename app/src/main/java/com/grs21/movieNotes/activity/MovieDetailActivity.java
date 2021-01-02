@@ -5,11 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -30,14 +27,12 @@ import com.grs21.movieNotes.model.Movie;
 import com.grs21.movieNotes.util.HttpConnector;
 import com.grs21.movieNotes.util.TxtFileReader;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import es.dmoral.toasty.Toasty;
 
 
@@ -54,7 +49,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private static final String MOVIE_ID_FILE_NAME="movie_id.txt";
     private final String baseURL="https://api.themoviedb.org/3/movie/%d?api_key=e502c799007bd295e5f591cb3ae8fb46&language=%s&append_to_response=credits";
     private Intent intent;
-    private static final String TAG = "MovieDetailActivity";
     private static final String ON_CLICKED_HOME_BUTTON_INTENT_KEY ="HOME_BUTTON";
     private static final String JSON_OBJECT_KEYWORD_CREDITS ="credits";
     private static final String JSON_OBJECT_KEYWORD_CAST ="cast";
@@ -89,7 +83,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         startActivity( intent);
         return  super.onOptionsItemSelected(item);
     }
-
     private void movieAddButtonListener() {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,9 +127,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
     }
-
     private void actorDownloader(String url, int movieId) {
-
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET
                 , String.format(url,movieId,getString(R.string.language))
                 , null
@@ -146,8 +137,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject= response.getJSONObject(JSON_OBJECT_KEYWORD_CREDITS);
                     JSONArray jsonArray1=jsonObject.getJSONArray(JSON_OBJECT_KEYWORD_CAST);
-                    Log.d(TAG, "onResponse: "+movieId);
-                    Log.d(TAG, "onResponse: "+jsonArray1.toString());
                     for (int i = 0; i <jsonArray1.length() ; i++) {
                         Actor actor=new Actor(jsonArray1.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_NAME)
                                 ,jsonArray1.getJSONObject(i).getString(JSON_OBJECT_KEYWORD_MOVIE_PROFILE_PATH));
@@ -171,7 +160,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "onErrorResponse: "+error);
             }
         });
         HttpConnector.getInstance(MovieDetailActivity.this).addRequestQue(jsonObjectRequest);

@@ -21,15 +21,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import es.dmoral.toasty.Toasty;
-
 public  class RecyclerViewChildAdapter extends RecyclerView.Adapter<RecyclerViewChildAdapter.ViewHolderBoxAdapter> {
     private static final String ON_CLICKED_ON_MOVIE_MAIN_ACTIVITY_INTENT_KEY ="movie";
     private ArrayList<Movie> movieArrayList;
-    private static final String TAG = "BoxAdapter";
     private Context context;
     private static final String MOVIE_ID_FILE_NAME="movie_id.txt";
-
-
     public RecyclerViewChildAdapter(ArrayList<Movie>movieArrayList, Context context) {
         this.movieArrayList=movieArrayList;
         this.context=context;
